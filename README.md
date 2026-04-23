@@ -1,5 +1,7 @@
 # 🏠 Ma Domotique ESPHome
 
+![ESPHome Validation](https://github.com/dguihal/esphome-conf/actions/workflows/esphome-validation.yml/badge.svg)
+
 Ce dépôt centralise toutes les configurations de mes modules ESPHome. 
 
 ## 🛠 Structure du Repo
