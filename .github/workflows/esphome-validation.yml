@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛒 Checkout du dépôt
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔐 Créer un faux secrets.yaml
         # GitHub a besoin d'un fichier secrets.yaml pour compiler, 
@@ -20,7 +20,7 @@ jobs:
           cp secrets.yaml.example secrets.yaml
 
       - name: 🚀 Validation ESPHome
-        uses: esphome/build-action@v2
+        uses: esphome/build-action@v7
         with:
           # On liste ici tes fichiers principaux à tester
           yaml_file: |
