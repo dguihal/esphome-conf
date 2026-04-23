@@ -12,7 +12,8 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 ## 🏗 Projets Actuels
 
 ### 1. Volet Véranda (Somfy RTS)
-**Matériel :** - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
+**Matériel :**
+- Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
 - Radio : `CC1101` (433MHz)
 - Composant : [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
 
