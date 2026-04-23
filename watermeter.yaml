@@ -3,6 +3,7 @@ substitutions:
   name: "watermeter"
   friendly_name: "Water meter"
   pulse_gpio: "26"
+  <<: !include common/nodes.yaml
 
 esphome:
   name: ${name}
