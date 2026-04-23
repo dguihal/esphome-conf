@@ -14,6 +14,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 ## 🏗 Projets Actuels
 
 ### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
+
 **Matériel :**
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
 - Radio : `CC1101` (433MHz)
@@ -33,4 +34,18 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 | **CSN** | GPIO 9 | SPI Chip Select |
 | **GDO0** | GPIO 1 | Interrupt / Data |
 
----
+
+### 1. Watermeter [watermeter.yaml](watermeter.yaml)
+
+**Matériel :**
+- Carte : `AZ Delivery esp-32-dev-kit-c-v4` [AZ Delivery](https://www.az-delivery.de/fr/products/esp-32-dev-kit-c-v4)
+- Capteur de débit d'eau liquide Effet Hall [Amazon](https://www.amazon.fr/SWAWIS-Pi%C3%A8ces-Capteur-D%C3%A9bitm%C3%A8tre-Commutateur/dp/B0C2GT6LHY)
+
+
+**Câblage :**
+
+| Capteur débit | ESP32 GPIO | Fonction |
+| Fil Rouge | 5V | Alimentation |
+| Fil Noir | GND | Masse |
+| Fil Jaune | GPIO 26 | Impulsions de comptage |
+
