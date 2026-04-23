@@ -13,11 +13,13 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 
 ## 🏗 Projets Actuels
 
-### 1. Volet Véranda (Somfy RTS)
+### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra
 **Matériel :**
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
 - Radio : `CC1101` (433MHz)
-- Composant : [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
+- Composants:
+  - [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
+  - [NicoIIT/ha-ble-adv](https://github.com/NicoIIT/ha-ble-adv)
 
 **Câblage (SPI) :**
 
@@ -30,6 +32,5 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 | **MOSI** | GPIO 18 | SPI MOSI |
 | **CSN** | GPIO 9 | SPI Chip Select |
 | **GDO0** | GPIO 1 | Interrupt / Data |
-| **LED Status** | GPIO 14 | LED RGB Intégrée |
 
 ---
