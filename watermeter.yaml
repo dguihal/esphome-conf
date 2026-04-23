@@ -132,7 +132,9 @@ sensor:
     filters:
       - throttle_average: 10s
       - filter_out: NaN
-      - multiply: 0.1
+      # Formule : f / 6.6 = Q. Pulse_meter donne des impulsions/min par défaut 
+      # si on ne filtre pas, donc on divise par 396 pour avoir des L/min
+      - multiply: 0.002525
     unit_of_measurement: "l/min"
     icon: "mdi:water"
     total:
