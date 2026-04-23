@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+  ],
+  "description": "Gestion automatique des dépendances ESPHome pour monorepo",
+  "timezone": "Europe/Paris",
+  "labels": ["dependencies", "esphome"],
+
+  "packageRules": [
+    {
+      "description": "Automerge les mises à jour mineures et patchs si les tests passent",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+    },
+    {
+      "description": "Groupe toutes les actions GitHub pour réduire le bruit",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+    },
+    {
+      "description": "Demande une validation manuelle pour les versions majeures d'ESPHome",
+      "matchPackageNames": ["esphome/esphome"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+    },
+  ],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Met à jour les composants externes ESPHome (github://user/repo@version)",
+      // On scanne la racine et le dossier common
+      "fileMatch": ["^.*\\.yaml$", "^common/.*\\.yaml$"],
+      "matchStrings": [
+        "source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
+      ],
+      "datasourceTemplate": "github-tags",
+    },
+  ],
+}
