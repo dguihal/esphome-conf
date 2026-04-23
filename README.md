@@ -37,7 +37,7 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 | **GDO0** | GPIO 1 | Interrupt / Data |
 
 
-### 1. Watermeter
+### 2. Watermeter
 
 Fichier: [watermeter.yaml](watermeter.yaml)
 
