@@ -49,6 +49,7 @@ Fichier: [watermeter.yaml](watermeter.yaml)
 **Câblage :**
 
 | Capteur débit | ESP32 GPIO | Fonction |
+| :--- | :--- | :--- |
 | Fil Rouge | 5V | Alimentation |
 | Fil Noir | GND | Masse |
 | Fil Jaune | GPIO 26 | Impulsions de comptage |
