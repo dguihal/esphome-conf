@@ -147,7 +147,7 @@ cover:
     open_duration: 30s   # A tuner
     close_duration: 30s  # A tuner
  
-    storage_key: !secret transmitter_remote_id
+    storage_key: !secret transmitter_baie_salon_storage_key # For rolling code
  
     # The transmitter identity for this ESPHome device (hex)
     remote_code: !secret transmitter_baie_salon_remote_id
