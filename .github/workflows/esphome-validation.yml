@@ -1,0 +1,30 @@
+name: ESPHome Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout du dépôt
+        uses: actions/checkout@v4
+
+      - name: 🔐 Créer un faux secrets.yaml
+        # GitHub a besoin d'un fichier secrets.yaml pour compiler, 
+        # même s'il contient de fausses données.
+        run: |
+          cp secrets.yaml.example secrets.yaml
+
+      - name: 🚀 Validation ESPHome
+        uses: esphome/build-action@v2
+        with:
+          # On liste ici tes fichiers principaux à tester
+          yaml_file: |
+            dummy.yaml
+          # On ne compile pas réellement le binaire final pour gagner du temps
+          # On vérifie juste la configuration
+          version: latest
