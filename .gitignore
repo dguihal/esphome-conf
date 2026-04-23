@@ -1,0 +1,9 @@
+# On ignore les dossiers de compilation de chaque noeud
+.esphome/
+.temp/
+
+# On ignore ABSOLUMENT les secrets
+secrets.yaml
+
+# On ignore les fichiers de backup d'ESPHome
+*.bak
