@@ -1,1 +1,32 @@
-# esphome-conf
+# 🏠 Ma Domotique ESPHome
+
+Ce dépôt centralise toutes les configurations de mes modules ESPHome. 
+
+## 🛠 Structure du Repo
+- `/common/` : Fragments de code partagés (Wi-Fi, API, OTA).
+- `*.yaml` : Fichiers de configuration par appareil.
+- `secrets.yaml.example` : Modèle pour les données sensibles (le vrai fichier est ignoré par Git).
+
+---
+
+## 🏗 Projets Actuels
+
+### 1. Volet Véranda (Somfy RTS)
+**Matériel :** - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
+- Radio : `CC1101` (433MHz)
+- Composant : [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
+
+**Câblage (SPI) :**
+
+| CC1101 Pin | ESP32-C6 GPIO | Fonction |
+| :--- | :--- | :--- |
+| **VCC** | 3.3V | Alimentation |
+| **GND** | GND | Masse |
+| **SCK** | GPIO 20 | SPI Clock |
+| **MISO** | GPIO 19 | SPI MISO |
+| **MOSI** | GPIO 18 | SPI MOSI |
+| **CSN** | GPIO 9 | SPI Chip Select |
+| **GDO0** | GPIO 1 | Interrupt / Data |
+| **LED Status** | GPIO 14 | LED RGB Intégrée |
+
+---
