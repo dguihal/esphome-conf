@@ -14,17 +14,20 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 🔐 Créer un faux secrets.yaml
-        # GitHub a besoin d'un fichier secrets.yaml pour compiler, 
-        # même s'il contient de fausses données.
         run: |
           cp secrets.yaml.example secrets.yaml
-
-      - name: 🚀 Validation ESPHome
-        uses: esphome/build-action@v7
-        with:
-          # On liste ici tes fichiers principaux à tester
-          yaml_file: |
-            dummy.yaml
-          # On ne compile pas réellement le binaire final pour gagner du temps
-          # On vérifie juste la configuration
-          version: latest
+          
+      - name: 🔍 Détection et Validation des fichiers YAML
+        run: |
+          # On cherche tous les .yaml à la racine, 
+          # en excluant secrets.yaml et les fichiers d'exemple
+          files=$(find . -maxdepth 1 -name "*.yaml" ! -name "secrets.yaml" ! -name "secrets.yaml.example" -printf "%P\n")
+          
+          echo "Fichiers détectés pour validation : $files"
+          
+          for file in $files; do
+            echo "--- Validation de $file ---"
+            # On utilise la commande 'config' d'esphome qui vérifie la syntaxe 
+            # sans générer le binaire complet
+            docker run --rm -v "${PWD}":/config -w /config esphome/esphome config "$file"
+          done
