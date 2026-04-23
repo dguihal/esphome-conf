@@ -29,5 +29,5 @@ jobs:
             echo "--- Validation de $file ---"
             # On utilise la commande 'config' d'esphome qui vérifie la syntaxe 
             # sans générer le binaire complet
-            docker run --rm -v "${PWD}":/config -w /config esphome/esphome config "$file"
+            docker run --rm -v "${PWD}":/config -w /config esphome/esphome:2026.4.2 config "$file"
           done
