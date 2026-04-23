@@ -19,7 +19,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 - Radio : `CC1101` (433MHz)
 - Composants:
   - [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
-  - [NicoIIT/ha-ble-adv](https://github.com/NicoIIT/ha-ble-adv)
+  - [NicoIIT/esphome-ble_adv_proxy](https://github.com/NicoIIT/esphome-ble_adv_proxy)
 
 **Câblage (SPI) :**
 
