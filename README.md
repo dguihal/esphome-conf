@@ -13,7 +13,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 
 ## 🏗 Projets Actuels
 
-### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra
+### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 **Matériel :**
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
 - Radio : `CC1101` (433MHz)
