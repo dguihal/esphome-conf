@@ -19,17 +19,7 @@ esp32:
   framework:
     type: esp-idf
 
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  min_auth_mode: WPA2
-  output_power: 8.5dB # The amount of TX power for the WiFi interface from 8.5dB to 20.5dB
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "${name} Fallback Hotspot"
-    password: !secret esphome_ap_password
+<<: !include common/base.yaml
 
 # Enable logging
 logger:
@@ -37,11 +27,6 @@ logger:
 
 # Enable Home Assistant API
 api:
-  encryption:
-    key: !secret api_encryption_key
-  custom_services: true
-  homeassistant_services: true
-  id: api_apiserver
   services:
     - service: reset_main_counter
       then:
@@ -50,10 +35,6 @@ api:
       then:
         - script.execute: reset_secondary_counter
 
-ota:
-  - platform: esphome
-    password: !secret esphome_ota_password
-
 # Documentations:
 # https://github.com/esphome/issues/issues/664
 # https://esphome.io/components/sensor/integration.html
@@ -61,14 +42,6 @@ ota:
 # https://github.com/hugokernel/esphome-water-meter/blob/master/watermeter.yaml
 
 improv_serial:
-
-mdns:
-
-web_server:
-  port: 80
-  # Optional: Customize the appearance or functionality
-  version: 3 # Use version 3 for HA-Styling and sorting groups
-  local: true # Include supporting JavaScript locally for offline access
 
 globals:
  - id: main_counter_pulses
