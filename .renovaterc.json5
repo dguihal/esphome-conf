@@ -1,50 +1,50 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":separateMajorReleases",
-    ":combinePatchMinorReleases",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':separateMajorReleases',
+    ':combinePatchMinorReleases',
   ],
-  "description": "Gestion automatique des dépendances ESPHome pour monorepo",
-  "timezone": "Europe/Paris",
-  "labels": ["dependencies", "esphome"],
+  description: 'Gestion automatique des dépendances ESPHome pour monorepo',
+  timezone: 'Europe/Paris',
+  labels: ['dependencies', 'esphome'],
 
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": ["custom.regex"], // Cible tes composants externes
-      "automerge": false, // On désactive l'auto-pilote pour la radio
+      matchManagers: ['custom.regex'], // Cible tes composants externes
+      automerge: false, // On désactive l'auto-pilote pour la radio
     },
     {
-      "matchManagers": ["github-actions"],
-      "automerge": true, // On peut garder l'automerge pour les outils GitHub
+      matchManagers: ['github-actions'],
+      automerge: true, // On peut garder l'automerge pour les outils GitHub
     },
     {
-      "description": "Groupe toutes les actions GitHub pour réduire le bruit",
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions",
+      description: 'Groupe toutes les actions GitHub pour réduire le bruit',
+      matchManagers: ['github-actions'],
+      'groupName': 'GitHub Actions',
     },
     {
-      "description": "Demande une validation manuelle pour les versions majeures d'ESPHome",
-      "matchPackageNames": ["esphome/esphome"],
-      "matchUpdateTypes": ["major"],
-      "automerge": false,
+      description: 'Demande une validation manuelle pour les versions majeures d'ESPHome',
+      matchPackageNames: ['esphome/esphome'],
+      matchUpdateTypes: ['major'],
+      automerge: false,
     },
   ],
 
   customManagers: [
     {
-      "customType": "regex",
-      "description": "Met à jour les composants externes (Tags ou SHAs)",
-      "fileMatch": ["^.*\\.yaml$", "^common/.*\\.yaml$"],
-      "matchStrings": [
+      customType: 'regex',
+      description: 'Met à jour les composants externes (Tags ou SHAs)',
+      fileMatch: ['^.*\\.yaml$', '^common/.*\\.yaml$'],
+      matchStrings: [
         // Cette regex capture : github://user/repo@version_ou_sha
-        "source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
+        'source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)',
       ],
       // On utilise github-tags par défaut
-      "datasourceTemplate": "github-tags",
-      // Si la valeur ressemble à un SHA (40 caractères hexadécimaux), 
+      datasourceTemplate: 'github-tags',
+      // Si la valeur ressemble à un SHA (40 caractères hexadécimaux),
       // Renovate bascule automatiquement sur les commits
-      "versioningTemplate": "docker", 
+      versioningTemplate: 'docker',
     },
   ],
 }
