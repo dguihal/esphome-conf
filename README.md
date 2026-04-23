@@ -13,7 +13,9 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 
 ## 🏗 Projets Actuels
 
-### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
+### 1. Volet Somfy RTS + Ventilateur plafonnier Mantra
+
+Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 
 **Matériel :**
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
@@ -35,7 +37,9 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 | **GDO0** | GPIO 1 | Interrupt / Data |
 
 
-### 1. Watermeter [watermeter.yaml](watermeter.yaml)
+### 1. Watermeter
+
+Fichier: [watermeter.yaml](watermeter.yaml)
 
 **Matériel :**
 - Carte : `AZ Delivery esp-32-dev-kit-c-v4` [AZ Delivery](https://www.az-delivery.de/fr/products/esp-32-dev-kit-c-v4)
