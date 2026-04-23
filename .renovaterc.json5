@@ -5,46 +5,46 @@
     ':separateMajorReleases',
     ':combinePatchMinorReleases',
   ],
-  description: 'Gestion automatique des dépendances ESPHome pour monorepo',
   timezone: 'Europe/Paris',
   labels: ['dependencies', 'esphome'],
 
   packageRules: [
     {
-      matchManagers: ['custom.regex'], // Cible tes composants externes
-      automerge: false, // On désactive l'auto-pilote pour la radio
-    },
-    {
+      description: 'Automerge uniquement pour les outils de CI (GitHub Actions)',
       matchManagers: ['github-actions'],
-      automerge: true, // On peut garder l'automerge pour les outils GitHub
+      automerge: true,
+      automergeType: 'pr',
+      platformAutomerge: true,
     },
     {
-      description: 'Groupe toutes les actions GitHub pour réduire le bruit',
-      matchManagers: ['github-actions'],
-      'groupName': 'GitHub Actions',
-    },
-    {
-      description: 'Demande une validation manuelle pour les versions majeures d'ESPHome',
+      description: 'Validation manuelle requise pour ESPHome et les composants externes',
       matchPackageNames: ['esphome/esphome'],
-      matchUpdateTypes: ['major'],
-      automerge: false,
+      matchManagers: ['custom.regex'],
+      automerge: false, // On garde la main sur le hardware
     },
   ],
 
   customManagers: [
     {
       customType: 'regex',
-      description: 'Met à jour les composants externes (Tags ou SHAs)',
+      description: 'Suivi des composants externes via Tags ou SHAs',
       fileMatch: ['^.*\\.yaml$', '^common/.*\\.yaml$'],
       matchStrings: [
-        // Cette regex capture : github://user/repo@version_ou_sha
-        'source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)',
+        "source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
       ],
-      // On utilise github-tags par défaut
       datasourceTemplate: 'github-tags',
-      // Si la valeur ressemble à un SHA (40 caractères hexadécimaux),
-      // Renovate bascule automatiquement sur les commits
       versioningTemplate: 'docker',
+    },
+    {
+      customType: 'regex',
+      description: 'Détecte l\'image Docker ESPHome dans les workflows GitHub',
+      fileMatch: ['^\\.github/workflows/.*\\.yml$'],
+      matchStrings: [
+        // Cherche l'image esphome/esphome dans les commandes docker run
+        "esphome/esphome:(?<currentValue>[^\\s\"']+)",
+      ],
+      depNameTemplate: 'esphome/esphome',
+      datasourceTemplate: 'docker',
     },
   ],
 }
