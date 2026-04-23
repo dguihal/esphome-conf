@@ -2,7 +2,7 @@ node_c6:
   platform: esp32
   board: esp32-c6-devkitc-1
   variant: esp32c6
-
-node_az-delivery-devkit-v4:
+  
+node_az_delivery_devkit_v4:
   platform: esp32
   board: az-delivery-devkit-v4
