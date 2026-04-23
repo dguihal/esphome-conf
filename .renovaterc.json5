@@ -30,16 +30,20 @@
     },
   ],
 
-  "customManagers": [
+  customManagers: [
     {
       "customType": "regex",
-      "description": "Met à jour les composants externes ESPHome (github://user/repo@version)",
-      // On scanne la racine et le dossier common
+      "description": "Met à jour les composants externes (Tags ou SHAs)",
       "fileMatch": ["^.*\\.yaml$", "^common/.*\\.yaml$"],
       "matchStrings": [
+        // Cette regex capture : github://user/repo@version_ou_sha
         "source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
       ],
+      // On utilise github-tags par défaut
       "datasourceTemplate": "github-tags",
+      // Si la valeur ressemble à un SHA (40 caractères hexadécimaux), 
+      // Renovate bascule automatiquement sur les commits
+      "versioningTemplate": "docker", 
     },
   ],
 }
