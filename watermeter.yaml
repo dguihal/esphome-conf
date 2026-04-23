@@ -14,7 +14,7 @@ esphome:
       - script.execute: publish_states
   
 esp32:
-  board: ${node_az-delivery-devkit-v4.board}
+  board: ${node_az_delivery_devkit_v4.board}
   framework:
     type: esp-idf
 
