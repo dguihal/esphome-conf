@@ -11,11 +11,12 @@
 
   "packageRules": [
     {
-      "description": "Automerge les mises à jour mineures et patchs si les tests passent",
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true,
+      "matchManagers": ["custom.regex"], // Cible tes composants externes
+      "automerge": false, // On désactive l'auto-pilote pour la radio
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "automerge": true, // On peut garder l'automerge pour les outils GitHub
     },
     {
       "description": "Groupe toutes les actions GitHub pour réduire le bruit",
