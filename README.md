@@ -32,11 +32,12 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 | :--- | :--- | :--- |
 | **VCC** | 3.3V | Alimentation |
 | **GND** | GND | Masse |
-| **SCK** | GPIO 20 | SPI Clock |
-| **MISO** | GPIO 19 | SPI MISO |
-| **MOSI** | GPIO 18 | SPI MOSI |
-| **CSN** | GPIO 9 | SPI Chip Select |
-| **GDO0** | GPIO 1 | Interrupt / Data |
+| **SCK** | GPIO 18 | SPI Clock |
+| **MOSI** | GPIO 19 | SPI MOSI |
+| **MISO** | GPIO 20 | SPI MISO |
+| **CSN** | GPIO 2 | SPI Chip Select |
+| **GDO0** | GPIO 5 | Data Transmit |
+| **GDO2** | GPIO 13 | Data Receive |
 
 
 ### 2. Watermeter

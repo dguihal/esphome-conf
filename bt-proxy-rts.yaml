@@ -2,6 +2,12 @@
 substitutions:
   name: "bt-proxy-rts"
   friendly_name: BT_Proxy_RTS
+  spi_clk_gpio: "GPIO18"            # CC1101 SCK (Pin 5)
+  spi_mosi_gpio: "GPIO19"           # CC1101 MOSI (Pin 6)
+  spi_miso_gpio: "GPIO20"           # CC1101 MISO (Pin 7)
+  cc1101_cs_gpio: "GPIO02"          # CC1101 CSN (Pin 4)
+  cc1101_transmitter_gpio: "GPIO05" # CC1101 GDO0 (Pin 3)
+  cc1101_receiver_gpio: "GPIO13"    # CC1101 GDO2 (Pin 8)
   # On vient piocher dans nodes.yaml
   <<: !include common/nodes.yaml
 
@@ -82,18 +88,18 @@ bluetooth_proxy:
 
 #### Somfy RTS
 spi:
-  clk_pin: GPIO18   # Pin 5 CC1101 (SCK)
-  mosi_pin: GPIO19  # Pin 6 CC1101 (MOSI)
-  miso_pin: GPIO20  # Pin 7 CC1101 (MISO)
+  clk_pin: ${spi_clk_gpio}
+  mosi_pin: ${spi_mosi_gpio}
+  miso_pin: ${spi_miso_gpio}
 
 cc1101:
   id: my_cc1101
   frequency: 433.42MHz
-  cs_pin: GPIO02    # Pin 4 CC1101 (CSN)
+  cs_pin: ${cc1101_cs_gpio}
 
 remote_transmitter:
   pin:
-    number: GPIO05  # Pin 3 CC1101 (GD00)
+    number: ${cc1101_transmitter_gpio}
     mode:
       output: true
   id: transmitter_somfy
@@ -107,7 +113,7 @@ remote_transmitter:
       - cc1101.begin_rx
 
 remote_receiver:
-  pin: GPIO13       # Pin 8 CC1101 (GD02)
+  pin: ${cc1101_receiver_gpio}
   id: receiver_somfy
 
 cover:
