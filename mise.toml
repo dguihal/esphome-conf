@@ -3,6 +3,8 @@ python = "3.14.4"
 pre-commit = "latest"
 # Si tu veux aussi linter ton YAML/JSON5 localement
 yamllint = "latest"
+node = "latest"
+markdownlint-cli2 = "latest"
 
 [tasks.lint]
 description = "Lance le check sur tous les fichiers"

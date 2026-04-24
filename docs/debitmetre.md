@@ -7,6 +7,7 @@ Capteur de débit d'eau en laiton avec capteur à effet Hall intégré.
 [amazon.fr](https://www.amazon.fr/SWAWIS-Pi%C3%A8ces-Capteur-D%C3%A9bitm%C3%A8tre-Commutateur/dp/B0C2GT6LHY)
 
 ## 🛠 Caractéristiques Physiques & Électriques
+
 | Attribut | Valeur |
 | :--- | :--- |
 | **Type de signal** | Impulsion NPN (Collecteur ouvert) |
@@ -18,6 +19,7 @@ Capteur de débit d'eau en laiton avec capteur à effet Hall intégré.
 | **Température liquide** | < 120°C |
 
 ## 📈 Métrologie
+
 - **Plage de mesure :** 1 ~ 30 L/min
 - **Précision :** ± 3%
 - **Formule de fréquence :** $f (Hz) = 6.6 \times Q (L/min)$
@@ -26,6 +28,7 @@ Capteur de débit d'eau en laiton avec capteur à effet Hall intégré.
 - **Cycle de service :** 50% ± 10%
 
 ## 🔌 Schéma de Câblage
+
 | Couleur | Fonction | Branchement ESP32 |
 | :--- | :--- | :--- |
 | **Rouge** | VCC (+) | Borne 5V (VIN) |
@@ -33,6 +36,7 @@ Capteur de débit d'eau en laiton avec capteur à effet Hall intégré.
 | **Jaune** | Signal (S) | GPIO (ex: GPIO4) avec `INPUT_PULLUP` |
 
 ## ⚙️ Configuration ESPHome (Résumé)
+
 - **Platform :** `pulse_meter`
 - **Internal Filter :** 10ms à 13ms recommandé
 - **Multiplicateur (L/min) :** `0.002525`

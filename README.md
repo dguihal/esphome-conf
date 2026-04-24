@@ -5,6 +5,7 @@
 Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 
 ## 🛠 Structure du Repo
+
 - `/common/` : Fragments de code partagés (Wi-Fi, API, OTA).
 - `*.yaml` : Fichiers de configuration par appareil.
 - `secrets.yaml.example` : Modèle pour les données sensibles (le vrai fichier est ignoré par Git).
@@ -18,6 +19,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 
 **Matériel :**
+
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
 - Radio : `CC1101` (433MHz)
 - Composants:
@@ -42,6 +44,7 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 Fichier: [watermeter.yaml](watermeter.yaml)
 
 **Matériel :**
+
 - Carte : `AZ Delivery esp-32-dev-kit-c-v4` [AZ Delivery](https://www.az-delivery.de/fr/products/esp-32-dev-kit-c-v4)
 - Capteur de débit d'eau liquide Effet Hall [Doc produit](docs/debitmetre.md)
 
