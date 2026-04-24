@@ -2,7 +2,7 @@
 
 ![ESPHome Validation](https://github.com/dguihal/esphome-conf/actions/workflows/esphome-validation.yml/badge.svg)
 
-Ce dépôt centralise toutes les configurations de mes modules ESPHome. 
+Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 
 ## 🛠 Structure du Repo
 - `/common/` : Fragments de code partagés (Wi-Fi, API, OTA).
@@ -53,4 +53,3 @@ Fichier: [watermeter.yaml](watermeter.yaml)
 | Fil Rouge | 5V | Alimentation |
 | Fil Noir | GND | Masse |
 | Fil Jaune | GPIO 26 | Impulsions de comptage |
-

@@ -16,18 +16,18 @@ jobs:
       - name: 🔐 Créer un faux secrets.yaml
         run: |
           cp secrets.yaml.example secrets.yaml
-          
+
       - name: 🔍 Détection et Validation des fichiers YAML
         run: |
-          # On cherche tous les .yaml à la racine, 
+          # On cherche tous les .yaml à la racine,
           # en excluant secrets.yaml et les fichiers d'exemple
-          files=$(find . -maxdepth 1 -name "*.yaml" ! -name "secrets.yaml" ! -name "secrets.yaml.example" -printf "%P\n")
-          
+          files=$(grep -l 'esphome:' *.yaml)
+
           echo "Fichiers détectés pour validation : $files"
-          
+
           for file in $files; do
             echo "--- Validation de $file ---"
-            # On utilise la commande 'config' d'esphome qui vérifie la syntaxe 
+            # On utilise la commande 'config' d'esphome qui vérifie la syntaxe
             # sans générer le binaire complet
             docker run --rm -v "${PWD}":/config -w /config esphome/esphome:2026.4.2 config "$file"
           done

@@ -13,7 +13,7 @@ esphome:
     priority: -10
     then:
       - script.execute: publish_states
-  
+
 esp32:
   board: ${node_az_delivery_devkit_v4.board}
   framework:
@@ -128,12 +128,12 @@ sensor:
         input: true
         pullup: true
     name: "${friendly_name} Water Pulse Meter"
-    internal_filter: 10ms 
+    internal_filter: 10ms
     timeout: 10s
     filters:
       - throttle_average: 10s
       - filter_out: NaN
-      # Formule : f / 6.6 = Q. Pulse_meter donne des impulsions/min par défaut 
+      # Formule : f / 6.6 = Q. Pulse_meter donne des impulsions/min par défaut
       # si on ne filtre pas, donc on divise par 396 pour avoir des L/min
       - multiply: 0.002525
     unit_of_measurement: "L/min"

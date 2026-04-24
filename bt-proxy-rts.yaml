@@ -4,7 +4,7 @@ substitutions:
   friendly_name: BT_Proxy_RTS
   # On vient piocher dans nodes.yaml
   <<: !include common/nodes.yaml
-  
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -26,7 +26,7 @@ external_components:
 # Enable logging
 logger:
   level: WARN
-  
+
 #### Sensors
 sensor:
   - platform: wifi_signal
@@ -117,19 +117,19 @@ cover:
     device_class: shutter
     open_duration: 30s   # A tuner
     close_duration: 30s  # A tuner
- 
+
     storage_key: !secret transmitter_baie_salon_storage_key # For rolling code
- 
+
     # The transmitter identity for this ESPHome device (hex)
     remote_code: !secret transmitter_baie_salon_remote_id
- 
+
     prog_button: program_livingroom_door
     remote_transmitter: transmitter_somfy
     remote_receiver: receiver_somfy
- 
+
     # Always updated on successful decode (use this to learn remotes)
     detected_remote: somfy_rx_last
- 
+
     # Physical remotes that should be allowed to sync/control this cover
     allowed_remotes:
       - !secret baie_salon_physical_remote_id_1
