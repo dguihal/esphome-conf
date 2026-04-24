@@ -1,5 +1,5 @@
 [tools]
-python = "3.11"
+python = "3.14.4"
 pre-commit = "latest"
 # Si tu veux aussi linter ton YAML/JSON5 localement
 yamllint = "latest"
