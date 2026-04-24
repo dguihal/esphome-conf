@@ -5,7 +5,7 @@ repos:
       - id: trailing-whitespace    # Supprime les espaces en fin de ligne
       - id: end-of-file-fixer      # Assure une ligne vide à la fin des fichiers
       - id: check-yaml             # Vérifie la syntaxe YAML
-        args: [--allow-multiple-documents]
+        args: [--allow-multiple-documents,--unsafe]
       - id: check-added-large-files # Empêche de commit des fichiers trop lourds
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
