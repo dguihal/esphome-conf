@@ -6,42 +6,53 @@
     ':combinePatchMinorReleases',
   ],
   timezone: 'Europe/Paris',
-  labels: ['dependencies', 'esphome'],
-
+  labels: [
+    'dependencies',
+    'esphome',
+  ],
   packageRules: [
     {
       description: 'Automerge uniquement pour les outils de CI (GitHub Actions)',
-      matchManagers: ['github-actions'],
+      matchManagers: [
+        'github-actions',
+      ],
       automerge: true,
       automergeType: 'pr',
       platformAutomerge: true,
     },
     {
       description: 'Validation manuelle requise pour ESPHome et les composants externes',
-      matchPackageNames: ['esphome/esphome'],
-      matchManagers: ['custom.regex'],
-      automerge: false, // On garde la main sur le hardware
+      matchPackageNames: [
+        'esphome/esphome',
+      ],
+      matchManagers: [
+        'custom.regex',
+      ],
+      automerge: false,
     },
   ],
-
   customManagers: [
     {
       customType: 'regex',
       description: 'Suivi des composants externes via Tags ou SHAs',
-      fileMatch: ['^.*\\.yaml$', '^common/.*\\.yaml$'],
+      managerFilePatterns: [
+        '/^.*\\.yaml$/',
+        '/^common/.*\\.yaml$/',
+      ],
       matchStrings: [
-        "source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)",
+        'source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)',
       ],
       datasourceTemplate: 'github-tags',
       versioningTemplate: 'docker',
     },
     {
       customType: 'regex',
-      description: 'Détecte l\'image Docker ESPHome dans les workflows GitHub',
-      fileMatch: ['^\\.github/workflows/.*\\.yml$'],
+      description: "Détecte l'image Docker ESPHome dans les workflows GitHub",
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.yml$/',
+      ],
       matchStrings: [
-        // Cherche l'image esphome/esphome dans les commandes docker run
-        "esphome/esphome:(?<currentValue>[^\\s\"']+)",
+        'esphome/esphome:(?<currentValue>[^\\s"\']+)',
       ],
       depNameTemplate: 'esphome/esphome',
       datasourceTemplate: 'docker',
