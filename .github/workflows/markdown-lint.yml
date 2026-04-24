@@ -11,5 +11,6 @@ jobs:
       - name: Run markdownlint
         uses: davidanson/markdownlint-cli2-action@v23
         with:
+          config: .markdownlint.json5
           globs: |
             **/*.md
