@@ -43,7 +43,7 @@ Fichier: [watermeter.yaml](watermeter.yaml)
 
 **Matériel :**
 - Carte : `AZ Delivery esp-32-dev-kit-c-v4` [AZ Delivery](https://www.az-delivery.de/fr/products/esp-32-dev-kit-c-v4)
-- Capteur de débit d'eau liquide Effet Hall [Amazon](https://www.amazon.fr/SWAWIS-Pi%C3%A8ces-Capteur-D%C3%A9bitm%C3%A8tre-Commutateur/dp/B0C2GT6LHY)
+- Capteur de débit d'eau liquide Effet Hall [Doc produit](docs/debimetre.md)
 
 
 **Câblage :**
