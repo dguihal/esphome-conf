@@ -1,0 +1,9 @@
+[tools]
+python = "3.11"
+pre-commit = "latest"
+# Si tu veux aussi linter ton YAML/JSON5 localement
+yamllint = "latest"
+
+[tasks.lint]
+description = "Lance le check sur tous les fichiers"
+run = "pre-commit run --all-files"

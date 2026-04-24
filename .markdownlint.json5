@@ -1,0 +1,8 @@
+{
+  // Désactive la règle de longueur de ligne (souvent pénible)
+  "MD013": false,
+  // Autorise le HTML (nécessaire pour redimensionner les images avec <img>)
+  "MD033": false,
+  // Autorise les lignes vides consécutives (si tu préfères aérer)
+  "MD012": false,
+}
