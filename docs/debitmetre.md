@@ -3,6 +3,7 @@
 Capteur de débit d'eau en laiton avec capteur à effet Hall intégré.
 
 ![Image du capteur](./img/debimetre.jpg)
+
 [amazon.fr](https://www.amazon.fr/SWAWIS-Pi%C3%A8ces-Capteur-D%C3%A9bitm%C3%A8tre-Commutateur/dp/B0C2GT6LHY)
 
 ## 🛠 Caractéristiques Physiques & Électriques
