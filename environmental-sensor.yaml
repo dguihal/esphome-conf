@@ -545,8 +545,7 @@ lvgl:
 
   # Not strictly required with a single display, but explicit is nice:
   displays:
-    - display_id: main_display
-
+    - main_display
   rotation: 270
 
   style_definitions:
