@@ -21,7 +21,7 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 **Matériel :**
 
 - Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47)
-- Radio : `CC1101` (433MHz)
+- Radio : `CC1101` (433MHz) [Doc produit](docs/cc1101.md)
 - Composants:
   - [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)
   - [NicoIIT/esphome-ble_adv_proxy](https://github.com/NicoIIT/esphome-ble_adv_proxy)
@@ -57,3 +57,43 @@ Fichier: [watermeter.yaml](watermeter.yaml)
 | Fil Rouge | 5V | Alimentation |
 | Fil Noir | GND | Masse |
 | Fil Jaune | GPIO 26 | Impulsions de comptage |
+
+### 3. Environmental Sensor (Multi-Sensor + LCD)
+
+Fichier: [environmental-sensor.yaml](environmental-sensor.yaml)
+
+Station de monitoring de la qualité de l'air avec affichage cyclique sur écran TFT et indicateur visuel LED.
+
+**Matériel :**
+
+- Carte : `ESP32-C6-WROOM-1-N8` (8MB Flash)
+- Écran : `LCD TFT 2" 240x320` (Contrôleur ST7789)
+- Capteurs :
+  - SCD41 : CO2 (NDIR véritable), Température, Humidité. [Doc produit](docs/scd41.md)
+  - ENS160 : AQI, COV, eCO2. [Doc produit](docs/ens160.md)
+  - BME680 : Pression atmosphérique, Gaz, Température, Humidité. [Doc produit](docs/bme680.md)
+  - AHT21 : Température et Humidité de précision. [Doc produit](docs/aht21.md)
+  - HC-SR501 : Détecteur de mouvement (PIR) pour gestion du rétroéclairage. [Doc produit](docs/hc-sr501.md)
+  - LD2420 : Radar de présence mmWave (détection micro-mouvements). [Doc produit](docs/ld2420.md)
+
+**Câblage :**
+
+| Composant | Pin ESP32-C6 | Fonction |
+| :--- | :--- | :--- |
+| **Bus I2C** | GPIO 2 (SDA), GPIO 1 (SCL) | Tous les capteurs |
+| **Bus SPI (LCD)** | GPIO 7 (CLK), GPIO 6 (MOSI) | Affichage |
+| **LCD CS** | GPIO 14 | Chip Select |
+| **LCD DC** | GPIO 15 | Data/Command |
+| **LCD RST** | GPIO 21 | Reset |
+| **LCD BL** | GPIO 22 | Backlight (PWM) |
+| **LD2420 CS** | GPIO 20 | Chip Select Radar |
+| **Status LED** | GPIO 8 | LED RGB WS2812 |
+| **PIR Sensor** | GPIO 13 | Détection de présence |
+
+**Fonctionnalités :**
+
+- Interface graphique **LVGL** avec rotation logicielle.
+- Cycle d'affichage automatique des capteurs toutes les 5 secondes.
+- Ajustement dynamique des couleurs (Vert -> Rouge) selon les seuils de CO2/COV.
+- Gestion d'énergie : l'écran s'assombrit après X secondes sans mouvement.
+- LED de statut synchronisée sur la qualité de l'air (clignote en rouge en cas d'alerte).
