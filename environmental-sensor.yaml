@@ -14,19 +14,19 @@ substitutions:
   # SPI Bus (Display)
   spi_clk_pin: "GPIO7"
   spi_mosi_pin: "GPIO6"
-  spi_miso_pin: "GPIO5"
   # I2C Bus (Sensors)
   i2c_sda_pin: "GPIO2"
   i2c_scl_pin: "GPIO1"
   # Display control
   lcd_cs_pin: "GPIO14"
-  lcd_dc_pin: "GPIO15"
-  lcd_reset_pin: "GPIO21"
+  lcd_dc_pin: "GPIO3"
+  lcd_reset_pin: "GPIO18"
   lcd_bl_pin: "GPIO22"    # Backlight
-  ld2420_cs_pin: "GPIO20" # mmWave Radar CS
+  ld2420_uart_tx_pin: "GPIO20"
+  ld2420_uart_rx_pin: "GPIO21"
   # Peripherals
-  status_led_pin: "GPIO8" # Onboard RGB
-  motion_sensor_pin: "GPIO13"
+  status_led_pin: "GPIO10" # Onboard RGB
+  motion_sensor_pin: "GPIO11"
 
   <<: !include common/nodes.yaml
 
@@ -71,10 +71,10 @@ globals:
     initial_value: '0.1'
   - id: display_state
     type: int
-    initial_value: '0'  # 0: heure, 1: qualité de l'air, 2: température, 3: humidité
+    initial_value: '0'  # 0: time, 1: air quality, 2: temperature, 3: humidity
   - id: last_change_time
     type: int
-    initial_value: '0'   # Dernier moment où l'affichage a changé
+    initial_value: '0'   # Last time the display changed
   - id: air_level
     type: int
     restore_value: no
@@ -136,7 +136,7 @@ interval:
             lv_label_set_text(id(clock_label), "--:--:--");
             return;
           } else {
-            // Heure
+            // Time
               char buffer[9];
               now.strftime(buffer, sizeof(buffer), "%H:%M:%S");
               lv_label_set_text(id(clock_label), buffer);
@@ -149,10 +149,10 @@ interval:
 
             id(last_change_time) = current_time;
 
-            // Met à jour l'état pour la prochaine information
+            // Update state for next info
             id(display_state) = (id(display_state) + 1) % 6;
 
-            // Par défaut on remet la couleur normale
+            // Reset to normal color by default
             lv_obj_set_style_text_color(id(sensor_value_label), lv_color_hex(${color_disp_fg}), 0);
           }
 
@@ -182,7 +182,7 @@ interval:
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "CO2 - ppm");
               }
               break;
-            case 1: // Composés Organiques Volatils Totaux
+            case 1: // Total Volatile Organic Compounds
               if (isnan(id(ens_tvoc).state)) {
                 snprintf(buffer, sizeof(buffer), "%s", "NaN");
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
@@ -205,143 +205,15 @@ interval:
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "COV - ppb");
               }
               break;
-            case 2: // Pression
+            case 2: // Pressure
               snprintf(buffer, sizeof(buffer), "%.1f", id(bme680_pressure).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "hPa");
               break;
-            case 3: // Humidité
+            case 3: // Humidity
               snprintf(buffer, sizeof(buffer), "%.1f %%", id(aht_hum).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Humidity");
               break;
-            case 4: // Température
-              snprintf(buffer, sizeof(buffer), "%.1f", id(aht_temp).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "°C");
-              break;
-            case 5: // Air Quality global
-              const std::string &iaq = id(iaq_classification).state;
-
-              if (iaq.empty()) {
-                snprintf(buffer, sizeof(buffer_unit), "%s", "");
-                snprintf(buffer, sizeof(buffer_unit), "%s", "Starting...");
-              } else {
-                snprintf(buffer, sizeof(buffer), "● %s", iaq.c_str());
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Air quality");
-              }
-
-              lv_color_t color;
-
-              switch(id(air_level)) {
-                case 0: color = lv_color_hex(${color_air_excellent}); break;
-                case 1: color = lv_color_hex(${color_air_good}); break;
-                case 2: color = lv_color_hex(${color_air_moderate}); break;
-                case 3: color = lv_color_hex(${color_air_poor}); break;
-                case 4: color = lv_color_hex(${color_air_unhealthy}); break;
-                default: color = lv_color_hex(${color_disp_fg}); break;
-              }
-
-              lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-
-              break;
-          }
-
-          if (strcmp(last_sensor, buffer) != 0)
-          {
-            snprintf(last_sensor, sizeof(last_sensor), "%s", buffer);
-            lv_label_set_text(id(sensor_value_label), buffer);
-            lv_label_set_text(id(sensor_unit_label), buffer_unit);
-          }
-
-  - interval: 5s
-    then:
-      - lambda: |-
-          static const int display_duration = 5;
-          static char last_sensor[32] = "";
-
-          auto now = id(sntp_time).now();
-
-          if (!now.is_valid()) {
-
-            lv_label_set_text(id(clock_label), "--:--:--");
-            return;
-          } else {
-            // Heure
-              char buffer[9];
-              now.strftime(buffer, sizeof(buffer), "%H:%M:%S");
-              lv_label_set_text(id(clock_label), buffer);
-          }
-
-          int current_time = now.timestamp;
-          int elapsed = current_time - id(last_change_time);
-
-          if (elapsed >= display_duration) {
-
-            id(last_change_time) = current_time;
-
-            // Met à jour l'état pour la prochaine information
-            id(display_state) = (id(display_state) + 1) % 6;
-
-            // Par défaut on remet la couleur normale
-            lv_obj_set_style_text_color(id(sensor_value_label), lv_color_hex(${color_disp_fg}), 0);
-          }
-
-          char buffer[sizeof(last_sensor)];
-          char buffer_unit[32];
-          switch (id(display_state)) {
-            case 0: // CO2 (ENS160 eCO2)
-              if (isnan(id(ens_eco2).state) || id(ens_eco2).state < 0) {
-                snprintf(buffer, sizeof(buffer), "%s", "NaN");
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
-              } else {
-                int co2 = (int)id(ens_eco2).state;
-
-                lv_color_t color;
-
-                if (co2 < 800)
-                  color = lv_color_hex(${color_air_excellent});
-                else if (co2 < 1200)
-                  color = lv_color_hex(${color_air_moderate});
-                else if (co2 < 1600)
-                  color = lv_color_hex(${color_air_poor});
-                else
-                  color = lv_color_hex(${color_air_unhealthy});
-
-                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "● %d", co2);
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "CO2 - ppm");
-              }
-              break;
-            case 1: // Composés Organiques Volatils Totaux
-              if (isnan(id(ens_tvoc).state)) {
-                snprintf(buffer, sizeof(buffer), "%s", "NaN");
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
-              } else {
-                int tvoc = (int)id(ens_tvoc).state;
-
-                lv_color_t color;
-
-                if (tvoc < 150)
-                  color = lv_color_hex(${color_air_excellent});
-                else if (tvoc < 300)
-                  color = lv_color_hex(${color_air_moderate});
-                else if (tvoc < 1000)
-                  color = lv_color_hex(${color_air_poor});
-                else
-                  color = lv_color_hex(${color_air_unhealthy});
-
-                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "● %d", (int)id(ens_tvoc).state);
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "COV - ppb");
-              }
-              break;
-            case 2: // Pression
-              snprintf(buffer, sizeof(buffer), "%.1f", id(bme680_pressure).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "hPa");
-              break;
-            case 3: // Humidité
-              snprintf(buffer, sizeof(buffer), "%.1f %%", id(aht_hum).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Humidity");
-              break;
-            case 4: // Température
+            case 4: // Temperature
               snprintf(buffer, sizeof(buffer), "%.1f", id(aht_temp).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "°C");
               break;
@@ -427,7 +299,7 @@ interval:
 
           call.perform();
 
-  # Nouveau : Vérifie la présence toutes les 5 secondes et relance le script si nécessaire
+  # New: Check presence every 5 seconds and restart the script if necessary
   - interval: 5s
     then:
       - if:
@@ -445,7 +317,6 @@ interval:
 spi:
   clk_pin: ${spi_clk_pin}
   mosi_pin: ${spi_mosi_pin}
-  miso_pin: ${spi_miso_pin}
 
 ################################################################################
 # I2C
@@ -457,10 +328,21 @@ i2c:
     scan: true
 
 ################################################################################
+# UART (required for LD2420 radar)
+################################################################################
+uart:
+  id: ld2420_uart
+  tx_pin: ${ld2420_uart_tx_pin}
+  rx_pin: ${ld2420_uart_rx_pin}
+  baud_rate: 115200
+  parity: NONE
+  stop_bits: 1
+
+################################################################################
 # RADAR mmWave LD2420
 ################################################################################
 ld2420:
-  - cs_pin: ${ld2420_cs_pin}
+  uart_id: ld2420_uart
 
 ################################################################################
 # SENSOR
@@ -483,9 +365,9 @@ sensor:
   - platform: uptime
     name: "Uptime"
 
-  # Sensors calculés
+  # Calculated Sensors
   - platform: template
-    name: "Temperature corrigée"
+    name: "Corrected Temperature"
     id: corrected_temperature
     unit_of_measurement: "°C"
     lambda: |-
@@ -528,7 +410,7 @@ sensor:
 
   - platform: ens160_i2c
     i2c_id: i2cbus_a
-    address: 0x53   # ou 0x52 si nécessaire
+    address: 0x53   # or 0x52 if necessary
     aqi:
       id: ens_aqi
       name: "ENS160 AQI"
@@ -567,6 +449,12 @@ sensor:
     temperature_offset: 0
     update_interval: 60s
 
+  # LD2420 distance measurements for presence detection and movement tracking.
+  - platform: ld2420
+    moving_distance:
+      name: "Moving Distance"
+      id: moving_distance
+
 text_sensor:
   - platform: template
     name: "Air Status Global"
@@ -581,39 +469,45 @@ text_sensor:
         default: return {"Unknown"};
       }
 
-# --- CONFIGURATION DU CAPTEUR HC-SR501 ---
+  # LD2420 firmware version for diagnostics
+  - platform: ld2420
+    fw_version:
+      name: LD2420 Firmware
+
 binary_sensor:
+  # HC-SR501 PIR Motion Sensor
   - platform: gpio
     pin:
       number: ${motion_sensor_pin}
-      mode: INPUT_PULLDOWN  # Force l'état bas (0V) par défaut
-    id: pir_motion_sensor # Ajout d'un ID pour le capteur PIR
-    name: "Mouvement PIR"
+      mode: INPUT_PULLDOWN  # Force low state (0V) by default
+    id: pir_motion_sensor # Added ID for PIR sensor
+    name: "PIR Motion"
     device_class: motion
 
     filters:
-      # Ne déclenche 'ON' que si le mouvement dure au moins 0.1s (évite les parasites)
+      # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
       - delayed_on: 200ms
-      # Reste sur 'ON' pendant au moins 2 secondes avant de repasser à 'OFF'
-      # Cela crée une entité beaucoup plus propre dans Home Assistant
+      # Stay 'ON' for at least 2 seconds before returning to 'OFF'
+      # Creates a cleaner entity in Home Assistant
       - delayed_off: 2s
 
-    # Dès qu'un mouvement est détecté
+    # Once motion is detected
     on_press:
       then:
         - script.execute: presence_timer_script
 
+  # LD2420 generates a 'has_target' binary which is 'ON' as soon as it detects presence in its zone
   - platform: ld2420
     has_target:
-      id: presence_radar_ld2420 # Ajout d'un ID pour le capteur LD2420
-      name: "Présence Radar"
+      id: presence_radar_ld2420 # Added ID for LD2420 sensor
+      name: "Radar Presence"
       on_press:
         then:
           - script.execute: presence_timer_script
 
 number:
   - platform: template
-    name: "Délai extinction"
+    name: "Shutdown delay"
     id: delay_timer
     min_value: 5
     max_value: 300
@@ -622,6 +516,37 @@ number:
     unit_of_measurement: "s"
     optimistic: true
     restore_value: true
+
+  # LD2420 configuration parameters as numbers for easy adjustment from Home Assistant UI
+  - platform: ld2420
+    presence_timeout:
+      name: "Detection Presence Timeout"
+    min_gate_distance:
+      name: "Detection Gate Minimum"
+    max_gate_distance:
+      name: "Detection Gate Maximum"
+    gate_select:
+      name: "Select Gate to Set"
+    still_threshold:
+      name: "Set Still Threshold Value"
+    move_threshold:
+      name: "Set Move Threshold Value"
+    gate_move_sensitivity:
+      name: "Move Calibration Sensitivity Factor"
+    gate_still_sensitivity:
+      name: "Still Calibration Sensitivity Factor"
+
+button:
+  # LD2420 configuration buttons for factory reset, apply config, etc. These call built-in actions of the LD2420 component.
+  - platform: ld2420
+    apply_config:
+      name: "Apply Config"
+    factory_reset:
+      name: "Factory Reset"
+    restart_module:
+      name: "Restart Module"
+    revert_config:
+      name: "Undo Edits"
 ################################################################################
 # DISPLAY
 ################################################################################
@@ -677,15 +602,15 @@ display:
     update_interval: never
 
 font:
-  - file: "gfonts://Roboto"
+  - file: "fonts/Roboto-Regular.ttf"
     id: roboto_48
     size: 48
     glyphs: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;%°-+()/!?●•"
-  - file: "gfonts://Roboto"
+  - file: "fonts/Roboto-Regular.ttf"
     id: roboto_24
     size: 24
     glyphs: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;%°-+()/!?●•"
-  - file: "gfonts://Roboto Mono"
+  - file: "fonts/RobotoMono-Regular.ttf"
     id: roboto_mono_20
     size: 20
     glyphs: "0123456789:"

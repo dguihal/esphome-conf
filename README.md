@@ -7,6 +7,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 ## 🛠 Structure du Repo
 
 - `/common/` : Fragments de code partagés (Wi-Fi, API, OTA).
+- `/fonts/` : Fichiers de police TrueType (.ttf) utilisés pour les écrans.
 - `*.yaml` : Fichiers de configuration par appareil.
 - `secrets.yaml.example` : Modèle pour les données sensibles (le vrai fichier est ignoré par Git).
 
@@ -83,12 +84,12 @@ Station de monitoring de la qualité de l'air avec affichage cyclique sur écran
 | **Bus I2C** | GPIO 2 (SDA), GPIO 1 (SCL) | Tous les capteurs |
 | **Bus SPI (LCD)** | GPIO 7 (CLK), GPIO 6 (MOSI) | Affichage |
 | **LCD CS** | GPIO 14 | Chip Select |
-| **LCD DC** | GPIO 15 | Data/Command |
-| **LCD RST** | GPIO 21 | Reset |
+| **LCD DC** | GPIO 3 | Data/Command |
+| **LCD RST** | GPIO 18 | Reset |
 | **LCD BL** | GPIO 22 | Backlight (PWM) |
-| **LD2420 CS** | GPIO 20 | Chip Select Radar |
-| **Status LED** | GPIO 8 | LED RGB WS2812 |
-| **PIR Sensor** | GPIO 13 | Détection de présence |
+| **LD2420 UART** | GPIO 20 (TX), GPIO 21 (RX) | Communication Radar |
+| **Status LED** | GPIO 10 | LED RGB WS2812 |
+| **PIR Sensor** | GPIO 0 | Détection de présence |
 
 **Fonctionnalités :**
 
