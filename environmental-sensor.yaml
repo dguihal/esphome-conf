@@ -532,8 +532,8 @@ lvgl:
   # Not strictly required with a single display, but explicit is nice:
   displays:
     - display_id: main_display
-      rotation: 270
 
+  rotation: 270
 
   style_definitions:
     - id: clock_style
