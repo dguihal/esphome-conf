@@ -1,6 +1,7 @@
 # On ignore les dossiers de compilation de chaque noeud
 .esphome/
 .temp/
+archive/
 
 # On ignore ABSOLUMENT les secrets
 secrets.yaml
