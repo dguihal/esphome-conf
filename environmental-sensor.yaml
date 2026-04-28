@@ -9,6 +9,24 @@ substitutions:
   color_air_unhealthy: "0xD50000"
   name: "environmental-sensor"
   friendly_name: "Environmental Sensor"
+
+  # --- Pinout Mapping ---
+  # SPI Bus (Display)
+  spi_clk_pin: "GPIO7"
+  spi_mosi_pin: "GPIO6"
+  spi_miso_pin: "GPIO5"
+  # I2C Bus (Sensors)
+  i2c_sda_pin: "GPIO2"
+  i2c_scl_pin: "GPIO1"
+  # Display control
+  lcd_cs_pin: "GPIO14"
+  lcd_dc_pin: "GPIO15"
+  lcd_reset_pin: "GPIO21"
+  lcd_bl_pin: "GPIO22"    # Backlight
+  # Peripherals
+  status_led_pin: "GPIO8" # Onboard RGB
+  motion_sensor_pin: "GPIO13"
+
   <<: !include common/nodes.yaml
 
 esphome:
@@ -23,14 +41,12 @@ esphome:
           id: lcd_backlight
           brightness: 30%
 
-
 esp32:
-  board: esp32-c6-devkitc-1
-  variant: esp32c6
-  flash_size: 4MB
+  board: ${node_c6.board}
+  variant: ${node_c6.variant}
+  flash_size: 8MB
   framework:
     type: esp-idf
-
 <<: !include common/base.yaml
 
 # Enable logging
@@ -49,6 +65,9 @@ time:
 ######
 
 globals:
+  - id: status_led_brightness
+    type: float
+    initial_value: '0.1'
   - id: display_state
     type: int
     initial_value: '0'  # 0: heure, 1: qualité de l'air, 2: température, 3: humidité
@@ -91,9 +110,7 @@ script:
       - light.turn_on:
           id: lcd_backlight
           brightness: 80% # Tu peux aussi lier ça à un 'number'
-      - light.turn_on:
-          id: status_led
-          brightness: 80%
+      - lambda: id(status_led_brightness) = 0.8;
 
       # On attend la durée définie par le curseur 'delay_timer'
       - delay: !lambda "return id(delay_timer).state * 1000;"
@@ -102,9 +119,7 @@ script:
       - light.turn_on:
           id: lcd_backlight
           brightness: 30% # Tu peux aussi lier ça à un 'number'
-      - light.turn_on:
-          id: status_led
-          brightness: 10%
+      - lambda: id(status_led_brightness) = 0.1;
 
 interval:
   - interval: 1s
@@ -250,7 +265,7 @@ interval:
 
           auto call = id(status_led).turn_on();
           call.set_rgb(r,g,b);
-          call.set_brightness(0.8);
+          call.set_brightness(id(status_led_brightness));
           call.perform();
 
   - interval: 500ms
@@ -278,7 +293,7 @@ interval:
             }
           } else {
             call.set_rgb(r,g,b);
-            call.set_brightness(0.8);
+            call.set_brightness(id(status_led_brightness));
           }
 
           call.perform();
@@ -287,17 +302,17 @@ interval:
 # SPI
 ################################################################################
 spi:
-  clk_pin: GPIO7
-  mosi_pin: GPIO6
-  miso_pin: GPIO5
+  clk_pin: ${spi_clk_pin}
+  mosi_pin: ${spi_mosi_pin}
+  miso_pin: ${spi_miso_pin}
 
 ################################################################################
 # I2C
 ################################################################################
 i2c:
   - id: "i2cbus_a"
-    sda: 2
-    scl: 1
+    sda: ${i2c_sda_pin}
+    scl: ${i2c_scl_pin}
     scan: true
 
 ################################################################################
@@ -423,7 +438,7 @@ text_sensor:
 binary_sensor:
   - platform: gpio
     pin:
-      number: GPIO13
+      number: ${motion_sensor_pin}
       mode: INPUT_PULLDOWN  # Force l'état bas (0V) par défaut
     name: "Mouvement bureau Damien"
     id: mouvement
@@ -459,7 +474,7 @@ number:
 # --- Backlight: BL is on GPIO22 via transistor on this board ---
 output:
   - platform: ledc
-    pin: GPIO22          # LCD_BL
+    pin: ${lcd_bl_pin}
     id: lcd_bl
 
 light:
@@ -472,7 +487,7 @@ light:
   - platform: esp32_rmt_led_strip
     id: status_led
     name: "Onboard RGB LED"
-    pin: GPIO8
+    pin: ${status_led_pin}
     num_leds: 1
     chipset: ws2812
     rgb_order: RGB
@@ -485,20 +500,19 @@ display:
     id: main_display
     model: ST7789V
 
-    # Geometry for Waveshare 1.47" 172x320 panel
-    # Panel is 172x320 and offset depends on rotation
+    # Standard 240x320 TFT panel
     dimensions:
-      width: 320
-      height: 172
+      width: 240
+      height: 320
       offset_width: 0
-      offset_height: 34
+      offset_height: 0
 
-    cs_pin: GPIO14         # LCD_CS
-    dc_pin: GPIO15         # LCD_DC
-    reset_pin: GPIO21      # LCD_RST
+    cs_pin: ${lcd_cs_pin}
+    dc_pin: ${lcd_dc_pin}
+    reset_pin: ${lcd_reset_pin}
 
     spi_mode: MODE3        # this board wants mode 3
-    data_rate: 10MHz       # if it fails try 5MHz
+    data_rate: 40MHz       # ST7789 supports up to 40-80MHz
     color_order: bgr       # typical for ST7789; flip to rgb if colors are wrong
     color_depth: 16        # RGB565
     invert_colors: true
@@ -574,8 +588,8 @@ lvgl:
         # Ligne séparatrice
         - line:
             points:
-              - 10,50
-              - 162,50
+              - 10,55
+              - 310,55
             line_width: 2
             line_color: ${color_disp_fg}
 
