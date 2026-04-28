@@ -616,7 +616,7 @@ font:
     glyphs: "0123456789:"
 
 lvgl:
-  buffer_size: 25%        # ~27kB for 172x320@RGB565 – fine for ESP32-C6
+  buffer_size: 25%        # ~38kB for 240x320@RGB565 – safe for ESP32-C6
   color_depth: 16         # must match display
   id: "lvgl_display"
 
