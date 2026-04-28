@@ -10,7 +10,7 @@ substitutions:
   name: "environmental-sensor"
   friendly_name: "Environmental Sensor"
   <<: !include common/nodes.yaml
-  
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -94,10 +94,10 @@ script:
       - light.turn_on:
           id: status_led
           brightness: 80%
-      
+
       # On attend la durée définie par le curseur 'delay_timer'
       - delay: !lambda "return id(delay_timer).state * 1000;"
-      
+
       # On éteint tout en douceur
       - light.turn_on:
           id: lcd_backlight
@@ -227,7 +227,7 @@ interval:
 
               break;
           }
-            
+
           if (strcmp(last_sensor, buffer) != 0)
           {
             snprintf(last_sensor, sizeof(last_sensor), "%s", buffer);
@@ -422,13 +422,13 @@ text_sensor:
 # --- CONFIGURATION DU CAPTEUR HC-SR501 ---
 binary_sensor:
   - platform: gpio
-    pin: 
+    pin:
       number: GPIO13
       mode: INPUT_PULLDOWN  # Force l'état bas (0V) par défaut
     name: "Mouvement bureau Damien"
     id: mouvement
     device_class: motion
-    
+
     filters:
       # Ne déclenche 'ON' que si le mouvement dure au moins 0.1s (évite les parasites)
       - delayed_on: 200ms
@@ -493,8 +493,6 @@ display:
       offset_width: 0
       offset_height: 34
 
-    rotation: 270
-
     cs_pin: GPIO14         # LCD_CS
     dc_pin: GPIO15         # LCD_DC
     reset_pin: GPIO21      # LCD_RST
@@ -533,9 +531,10 @@ lvgl:
 
   # Not strictly required with a single display, but explicit is nice:
   displays:
-    - main_display
+    - display_id: main_display
+      rotation: 270
 
-  
+
   style_definitions:
     - id: clock_style
       bg_color: ${color_disp_bg}
