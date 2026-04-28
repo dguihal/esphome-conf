@@ -7,7 +7,7 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 ## 🛠 Structure du Repo
 
 - `/common/` : Fragments de code partagés (Wi-Fi, API, OTA).
-- `/fonts/` : Fichiers de police TrueType (.ttf) utilisés pour les écrans.
+- `/fonts/` : Fichiers de police TrueType (.ttf) et icônes (MDI).
 - `*.yaml` : Fichiers de configuration par appareil.
 - `secrets.yaml.example` : Modèle pour les données sensibles (le vrai fichier est ignoré par Git).
 

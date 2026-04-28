@@ -2,14 +2,15 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
-      - id: trailing-whitespace    # Supprime les espaces en fin de ligne
-      - id: end-of-file-fixer      # Assure une ligne vide à la fin des fichiers
-      - id: check-yaml             # Vérifie la syntaxe YAML
-        args: [--allow-multiple-documents,--unsafe]
+      - id: trailing-whitespace # Supprime les espaces en fin de ligne
+      - id: end-of-file-fixer # Assure une ligne vide à la fin des fichiers
+      - id: check-yaml # Vérifie la syntaxe YAML
+        args: [ --allow-multiple-documents, --unsafe ]
       - id: check-added-large-files # Empêche de commit des fichiers trop lourds
+        args: [ "--maxkb=2048" ] # Limite à 2 Mo
 
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.22.1
     hooks:
       - id: markdownlint-cli2
-        args: ["--config", ".markdownlint-cli2.yaml"]
+        args: [ "--config", ".markdownlint-cli2.yaml" ]

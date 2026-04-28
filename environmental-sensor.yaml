@@ -127,6 +127,7 @@ interval:
     then:
       - lambda: |-
           static const int display_duration = 5;
+          static char last_icon[8] = "";
           static char last_sensor[32] = "";
 
           auto now = id(sntp_time).now();
@@ -152,14 +153,17 @@ interval:
             // Update state for next info
             id(display_state) = (id(display_state) + 1) % 6;
 
-            // Reset to normal color by default
+            // Reset to normal colors by default
+            lv_obj_set_style_text_color(id(sensor_icon_label), lv_color_hex(${color_disp_fg}), 0);
             lv_obj_set_style_text_color(id(sensor_value_label), lv_color_hex(${color_disp_fg}), 0);
           }
 
+          char icon_buffer[8];
           char buffer[sizeof(last_sensor)];
           char buffer_unit[32];
           switch (id(display_state)) {
             case 0: // CO2 (ENS160 eCO2)
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F015F"); // mdi-cloud
               if (isnan(id(ens_eco2).state) || id(ens_eco2).state < 0) {
                 snprintf(buffer, sizeof(buffer), "%s", "NaN");
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
@@ -177,12 +181,14 @@ interval:
                 else
                   color = lv_color_hex(${color_air_unhealthy});
 
+                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
                 lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "● %d", co2);
+                snprintf(buffer, sizeof(buffer), "%d", co2);
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "CO2 - ppm");
               }
               break;
             case 1: // Total Volatile Organic Compounds
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0591"); // mdi-weather-windy
               if (isnan(id(ens_tvoc).state)) {
                 snprintf(buffer, sizeof(buffer), "%s", "NaN");
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
@@ -200,31 +206,36 @@ interval:
                 else
                   color = lv_color_hex(${color_air_unhealthy});
 
+                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
                 lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "● %d", (int)id(ens_tvoc).state);
+                snprintf(buffer, sizeof(buffer), "%d", (int)id(ens_tvoc).state);
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "COV - ppb");
               }
               break;
             case 2: // Pressure
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F02D1"); // mdi-gauge
               snprintf(buffer, sizeof(buffer), "%.1f", id(bme680_pressure).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "hPa");
               break;
             case 3: // Humidity
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F059A"); // mdi-water-percent
               snprintf(buffer, sizeof(buffer), "%.1f %%", id(aht_hum).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Humidity");
               break;
             case 4: // Temperature
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0504"); // mdi-thermometer
               snprintf(buffer, sizeof(buffer), "%.1f", id(aht_temp).state);
               snprintf(buffer_unit, sizeof(buffer_unit), "%s", "°C");
               break;
             case 5: // Air Quality global
+              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F04D6"); // mdi-sparkles
               const std::string &iaq = id(iaq_classification).state;
 
               if (iaq.empty()) {
                 snprintf(buffer, sizeof(buffer_unit), "%s", "");
                 snprintf(buffer, sizeof(buffer_unit), "%s", "Starting...");
               } else {
-                snprintf(buffer, sizeof(buffer), "● %s", iaq.c_str());
+                snprintf(buffer, sizeof(buffer), "%s", iaq.c_str());
                 snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Air quality");
               }
 
@@ -239,6 +250,7 @@ interval:
                 default: color = lv_color_hex(${color_disp_fg}); break;
               }
 
+              lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
               lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
 
               break;
@@ -249,6 +261,11 @@ interval:
             snprintf(last_sensor, sizeof(last_sensor), "%s", buffer);
             lv_label_set_text(id(sensor_value_label), buffer);
             lv_label_set_text(id(sensor_unit_label), buffer_unit);
+          }
+
+          if (strcmp(last_icon, icon_buffer) != 0) {
+            snprintf(last_icon, sizeof(last_icon), "%s", icon_buffer);
+            lv_label_set_text(id(sensor_icon_label), icon_buffer);
           }
 
   - interval: 5s
@@ -614,6 +631,17 @@ font:
     id: roboto_mono_20
     size: 20
     glyphs: "0123456789:"
+  - file: "fonts/materialdesignicons-webfont.ttf"
+    id: mdi_font_48
+    size: 48
+    glyphs:
+      - "\U000F0504" # thermometer
+      - "\U000F059A" # water-percent
+      - "\U000F015F" # cloud
+      - "\U000F0591" # weather-windy
+      - "\U000F02D1" # gauge
+      - "\U000F04D6" # sparkles
+      - "\U000F012B" # clock-outline
 
 lvgl:
   buffer_size: 25%        # ~38kB for 240x320@RGB565 – safe for ESP32-C6
@@ -635,6 +663,12 @@ lvgl:
       border_color: 0x000000
       border_width: 0
       text_font: roboto_mono_20
+    - id: icon_style
+      bg_color: ${color_disp_bg}
+      text_color: ${color_disp_fg}
+      border_color: 0x000000
+      border_width: 0
+      text_font: mdi_font_48
     - id: sensor_value_style
       bg_color: ${color_disp_bg}
       text_color: ${color_disp_fg}
@@ -671,6 +705,13 @@ lvgl:
               - 310,55
             line_width: 2
             line_color: ${color_disp_fg}
+
+        - label:
+            id: sensor_icon_label
+            align: CENTER
+            y: -60
+            styles: icon_style
+            text: ""
 
         - label:
             id: sensor_value_label
