@@ -34,6 +34,7 @@ api:
     - service: reset_secondary_counter
       then:
         - script.execute: reset_secondary_counter
+  homeassistant_services: true
 
 # Documentations:
 # https://github.com/esphome/issues/issues/664
@@ -322,7 +323,7 @@ interval:
 
                   // Send event to Home Assistant
                   api::HomeAssistantServiceCallAction<> *api;
-                  api = new api::HomeAssistantServiceCallAction<>(api_apiserver, true);
+                  api = new api::HomeAssistantServiceCallAction<>(api_apiserver_id, true);
                   // Event id length limit is 32 characters
                   api->set_service("esphome.last_consumption_changes");
                   api->play();
