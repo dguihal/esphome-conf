@@ -23,7 +23,7 @@ esp32:
 
 external_components:
   - source: github://NicoIIT/esphome-ble_adv_proxy@a391b461a2c676b797af9540453ab7f02d978be8
-  - source: github://dguihal/somfy_cover@master
+  - source: github://dguihal/somfy_cover@229625cfecc0e8dda13d8c5e5142b105d55700e1
     components: [somfy_cover]
 
 <<: !include common/base.yaml
