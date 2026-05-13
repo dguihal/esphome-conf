@@ -7,8 +7,7 @@ substitutions:
   spi_miso_gpio: "GPIO20"           # CC1101 MISO (Pin 7)
   cc1101_cs_gpio: "GPIO02"          # CC1101 CSN (Pin 4)
   cc1101_transmitter_gpio: "GPIO05" # CC1101 GDO0 (Pin 3)
-  cc1101_receiver_gpio: "GPIO13"    # CC1101 GDO2 (Pin 8)
-  # On vient piocher dans nodes.yaml
+  cc1101_receiver_gpio: "GPIO23"    # CC1101 GDO2 (Pin 8)
   <<: !include common/nodes.yaml
 
 esphome:
@@ -23,7 +22,7 @@ esp32:
     type: esp-idf
 
 external_components:
-  - source: github://NicoIIT/esphome-ble_adv_proxy@1da7d0758a52f7a67250d2576977e11a094a4313
+  - source: github://NicoIIT/esphome-ble_adv_proxy@a391b461a2c676b797af9540453ab7f02d978be8
   - source: github://dguihal/somfy_cover@master
     components: [somfy_cover]
 
@@ -31,7 +30,7 @@ external_components:
 
 # Enable logging
 logger:
-  level: WARN
+  level: INFO # Set to Debug to discover remotes
 
 #### Sensors
 sensor:

@@ -38,7 +38,7 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 | **MISO** | GPIO 20 | SPI MISO |
 | **CSN** | GPIO 2 | SPI Chip Select |
 | **GDO0** | GPIO 5 | Data Transmit |
-| **GDO2** | GPIO 13 | Data Receive |
+| **GDO2** | GPIO 23 | Data Receive |
 
 
 ### 2. Watermeter
