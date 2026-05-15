@@ -21,7 +21,7 @@ Fichier: [bt-proxy-rts.yaml](bt-proxy-rts.yaml)
 
 **Matériel :**
 
-- Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) / [Schématique](docs/ESP32-C6-LCD-1.47_schematics.pdf) / [Fiche écran](docs/1.47inch_LCD_Datasheet.pdf)
+- Carte : `ESP32-C6-LCD-1.47` [Waveshare Wiki](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) / [Schématique](docs/ESP32-C6-LCD-1.47_schematics.pdf)
 - Radio : `CC1101` (433MHz) [Doc produit](docs/cc1101.md)
 - Composants:
   - [leonardpitzu/somfy_cover](https://github.com/leonardpitzu/somfy_cover)

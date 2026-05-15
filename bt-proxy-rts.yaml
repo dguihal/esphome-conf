@@ -23,8 +23,8 @@ esp32:
 
 external_components:
   - source: github://NicoIIT/esphome-ble_adv_proxy@a391b461a2c676b797af9540453ab7f02d978be8
-  - source: github://dguihal/somfy_cover@229625cfecc0e8dda13d8c5e5142b105d55700e1
-    components: [somfy_cover]
+  - source: github://dguihal/somfy_cover@8d43a8ec5243a736bf333a04e5bb5f7526c64538
+    components: [somfy]
 
 <<: !include common/base.yaml
 
@@ -115,6 +115,12 @@ remote_receiver:
   pin: ${cc1101_receiver_gpio}
   id: receiver_somfy
 
+somfy:
+  - id: rts_radio
+    type: rts
+    remote_transmitter: transmitter_somfy
+    remote_receiver: receiver_somfy
+
 cover:
   - platform: somfy_cover
     id: baie_salon
@@ -122,6 +128,7 @@ cover:
     device_class: shutter
     open_duration: 30s   # A tuner
     close_duration: 30s  # A tuner
+    somfy_id: rts_radio
 
     storage_key: !secret transmitter_baie_salon_storage_key # For rolling code
 
@@ -129,12 +136,8 @@ cover:
     remote_code: !secret transmitter_baie_salon_remote_id
 
     prog_button: program_livingroom_door
-    remote_transmitter: transmitter_somfy
-    remote_receiver: receiver_somfy
-
-    # Always updated on successful decode (use this to learn remotes)
+    # Always updated on successful decode (used to learn remotes)
     detected_remote: somfy_rx_last
-
     # Physical remotes that should be allowed to sync/control this cover
     allowed_remotes:
       - !secret baie_salon_physical_remote_id_1
