@@ -98,3 +98,27 @@ Station de monitoring de la qualité de l'air avec affichage cyclique sur écran
 - Ajustement dynamique des couleurs (Vert -> Rouge) selon les seuils de CO2/COV.
 - Gestion d'énergie : l'écran s'assombrit après X secondes sans mouvement.
 - LED de statut synchronisée sur la qualité de l'air (clignote en rouge en cas d'alerte).
+
+### 4. Volets Somfy IO (868.95 MHz)
+
+Fichier: volets-io.yaml
+
+**Matériel :**
+
+- Carte : `ESP32-C6`
+- Radio : `CC1101` (configuré pour 868.95 MHz)
+
+**Câblage :** Identique au projet RTS (voir section 1).
+
+**Procédure d'appairage (Récupération des clés spécifiques) :**
+Le protocole IO nécessite de récupérer le `target_node` et l'`encryption_key` de chaque moteur à l'aide d'une télécommande existante :
+
+1. **Préparation :** Ouvrez les logs ESPHome (Web ou CLI) en niveau `DEBUG`.
+2. **Mode Appairage :** Appuyez environ 3 secondes sur le bouton **PROG** de la télécommande physique du volet jusqu'à ce que celui-ci fasse un bref va-et-vient (Jog).
+3. **Lancement de l'écoute :** Dans Home Assistant, appelez le service `esphome.volets_io_learn_io_device` (ou utilisez l'action `learn` du hub somfy).
+4. **Extraction :** Surveillez les logs. Une ligne apparaîtra avec les informations nécessaires :
+   `[D][somfy.io:000] IO device learned: remote_code=0xXXXXXX, target_node=0xYYYYYY, encryption_key=ZZZZ...`
+5. **Configuration :** Reportez ces trois valeurs dans votre fichier `secrets.yaml` pour le volet concerné.
+6. **Finalisation :** Reflashez le module pour valider la configuration définitive.
+
+*Note : La `storage_key` est utilisée pour sauvegarder le compteur de session IO en mémoire flash (NVS), garantissant la persistance après redémarrage.
