@@ -128,7 +128,8 @@ somfy:
     remote_receiver: receiver_somfy
 
 cover:
-  - platform: somfy_cover
+  - platform: somfy
+    type: rts
     id: baie_salon
     name: "Volet salon"
     device_class: shutter
