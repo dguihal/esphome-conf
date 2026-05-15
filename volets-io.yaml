@@ -1,0 +1,169 @@
+---
+substitutions:
+  name: "volets-io"
+  friendly_name: "Volets Somfy IO"
+  spi_clk_gpio: "GPIO18"
+  spi_mosi_gpio: "GPIO19"
+  spi_miso_gpio: "GPIO20"
+  cc1101_cs_gpio: "GPIO02"
+  cc1101_gdo0_gpio: "GPIO05"
+  cc1101_gdo2_gpio: "GPIO23"
+  <<: !include common/nodes.yaml
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+
+esp32:
+  board: ${node_c6.board}
+  variant: ${node_c6.variant}
+  flash_size: 4MB
+  framework:
+    type: esp-idf
+
+external_components:
+  - source: github://dguihal/somfy_cover@8d43a8ec5243a736bf333a04e5bb5f7526c64538
+    components: [somfy]
+
+<<: !include common/base.yaml
+
+# Enable logging
+logger:
+  level: INFO # Set to DEBUG to get encryption keys and pairing device
+
+#### Sensors
+text_sensor:
+  - platform: template
+    id: somfy_io_rx_last
+    name: "Detected IO Remote"
+
+button:
+  - platform: template
+    id: program_volet_1
+    name: "Prog Volet 1"
+    entity_category: config
+  - platform: template
+    id: program_volet_2
+    name: "Prog Volet 2"
+    entity_category: config
+  - platform: template
+    id: program_volet_3
+    name: "Prog Volet 3"
+    entity_category: config
+  - platform: template
+    id: program_volet_4
+    name: "Prog Volet 4"
+    entity_category: config
+  - platform: template
+    id: program_volet_5
+    name: "Prog Volet 5"
+    entity_category: config
+
+#### Somfy IO
+spi:
+  clk_pin: ${spi_clk_gpio}
+  mosi_pin: ${spi_mosi_gpio}
+  miso_pin: ${spi_miso_gpio}
+
+cc1101:
+  id: cc1101_radio
+  cs_pin: ${cc1101_cs_gpio}
+  gdo0_pin: ${cc1101_gdo0_gpio}
+  frequency: 868.95MHz
+  modulation_type: 2-FSK
+  symbol_rate: 38400
+  fsk_deviation: 19.2kHz
+  filter_bandwidth: 100kHz
+  packet_mode: true
+  packet_length: 0
+  crc_enable: false
+  sync_mode: "16/16"
+  sync1: 0xFF
+  sync0: 0x33
+  num_preamble: 4
+
+somfy:
+  - id: iohc_radio
+    type: iohc
+    cc1101_id: cc1101_radio
+
+cover:
+  - platform: somfy
+    name: "Volet 1"
+    type: iohc
+    id: blind_1
+    device_class: shutter
+    open_duration: 25s
+    close_duration: 25s
+    storage_key: !secret volet_1_storage_key
+    # Identifiant unique du volet dans le réseau IO
+    remote_code: !secret volet_1_io_id
+    prog_button: program_volet_1
+    somfy_id: iohc_radio
+    mode: 2w
+    target_node: !secret volet_1_target_node
+    encryption_key: !secret volet_1_encryption_key
+
+  - platform: somfy
+    name: "Volet 2"
+    type: iohc
+    id: blind_2
+    device_class: shutter
+    open_duration: 25s
+    close_duration: 25s
+    storage_key: !secret volet_2_storage_key
+    # Identifiant unique du volet dans le réseau IO
+    remote_code: !secret volet_2_io_id
+    prog_button: program_volet_2
+    somfy_id: iohc_radio
+    mode: 2w
+    target_node: !secret volet_2_target_node
+    encryption_key: !secret volet_2_encryption_key
+
+  - platform: somfy
+    name: "Volet 3"
+    type: iohc
+    id: blind_3
+    device_class: shutter
+    open_duration: 25s
+    close_duration: 25s
+    storage_key: !secret volet_3_storage_key
+    # Identifiant unique du volet dans le réseau IO
+    remote_code: !secret volet_3_io_id
+    prog_button: program_volet_3
+    somfy_id: iohc_radio
+    mode: 2w
+    target_node: !secret volet_3_target_node
+    encryption_key: !secret volet_3_encryption_key
+
+  - platform: somfy
+    name: "Volet 4"
+    type: iohc
+    id: blind_4
+    device_class: shutter
+    open_duration: 25s
+    close_duration: 25s
+    storage_key: !secret volet_4_storage_key
+    # Identifiant unique du volet dans le réseau IO
+    remote_code: !secret volet_4_io_id
+    prog_button: program_volet_4
+    somfy_id: iohc_radio
+    mode: 2w
+    target_node: !secret volet_4_target_node
+    encryption_key: !secret volet_4_encryption_key
+
+  - platform: somfy
+    name: "Volet 5"
+    type: iohc
+    id: blind_5
+    device_class: shutter
+    open_duration: 25s
+    close_duration: 25s
+    storage_key: !secret volet_5_storage_key
+    # Identifiant unique du volet dans le réseau IO
+    remote_code: !secret volet_5_io_id
+    prog_button: program_volet_5
+    somfy_id: iohc_radio
+    mode: 2w
+    target_node: !secret volet_5_target_node
+    encryption_key: !secret volet_5_encryption_key
