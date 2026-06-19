@@ -22,7 +22,7 @@ esp32:
     type: esp-idf
 
 external_components:
-  - source: github://NicoIIT/esphome-ble_adv_proxy@a391b461a2c676b797af9540453ab7f02d978be8
+  - source: github://NicoIIT/esphome-ble_adv_proxy@3a684f99d2bab644882a8e29a3efa0c95381e7e3
   - source: github://dguihal/somfy_cover@8d43a8ec5243a736bf333a04e5bb5f7526c64538
     components: [somfy]
 
