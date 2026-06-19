@@ -12,21 +12,21 @@ substitutions:
 
   # --- Pinout Mapping ---
   # SPI Bus (Display)
-  spi_clk_pin: "GPIO7"
-  spi_mosi_pin: "GPIO6"
+  #spi_clk_pin: "GPIO7"
+  #spi_mosi_pin: "GPIO6"
   # I2C Bus (Sensors)
-  i2c_sda_pin: "GPIO2"
-  i2c_scl_pin: "GPIO1"
+  i2c_sda_pin: "GPIO3"
+  i2c_scl_pin: "GPIO2"
   # Display control
-  lcd_cs_pin: "GPIO14"
-  lcd_dc_pin: "GPIO3"
-  lcd_reset_pin: "GPIO18"
-  lcd_bl_pin: "GPIO22"    # Backlight
-  ld2420_uart_tx_pin: "GPIO20"
-  ld2420_uart_rx_pin: "GPIO21"
+  #lcd_cs_pin: "GPIO14"
+  #lcd_dc_pin: "GPIO1"
+  #lcd_reset_pin: "GPIO18"
+  #lcd_bl_pin: "GPIO22"    # Backlight
+  #ld2420_uart_tx_pin: "GPIO20"
+  #ld2420_uart_rx_pin: "GPIO21"
   # Peripherals
-  status_led_pin: "GPIO10" # Onboard RGB
-  motion_sensor_pin: "GPIO11"
+  #status_led_pin: "GPIO10" # Onboard RGB
+  #motion_sensor_pin: "GPIO11"
 
   <<: !include common/nodes.yaml
 
@@ -35,12 +35,12 @@ esphome:
   friendly_name: ${friendly_name}
   build_path: /build
 
-  on_boot:
-    priority: 800
-    then:
-      - light.turn_on:
-          id: lcd_backlight
-          brightness: 30%
+  #on_boot:
+  #  priority: 800
+  #  then:
+  #    - light.turn_on:
+  #        id: lcd_backlight
+  #        brightness: 30%
 
 esp32:
   board: ${node_c6.board}
@@ -108,232 +108,232 @@ script:
     mode: restart # Très important : relance le script à zéro si un nouveau mouvement est détecté
     then:
       # On allume tout à l'intensité souhaitée
-      - light.turn_on:
-          id: lcd_backlight
-          brightness: 80% # Tu peux aussi lier ça à un 'number'
-      - lambda: id(status_led_brightness) = 0.8;
+      #- light.turn_on:
+      #    id: lcd_backlight
+      #    brightness: 80% # Tu peux aussi lier ça à un 'number'
+      #- lambda: id(status_led_brightness) = 0.8;
 
       # On attend la durée définie par le curseur 'delay_timer'
-      - delay: !lambda "return id(delay_timer).state * 1000;"
+      #- delay: !lambda "return id(delay_timer).state * 1000;"
 
       # On éteint tout en douceur
-      - light.turn_on:
-          id: lcd_backlight
-          brightness: 30% # Tu peux aussi lier ça à un 'number'
-      - lambda: id(status_led_brightness) = 0.1;
+      #- light.turn_on:
+      #    id: lcd_backlight
+      #    brightness: 30% # Tu peux aussi lier ça à un 'number'
+      #- lambda: id(status_led_brightness) = 0.1;
 
-interval:
-  - interval: 1s
-    then:
-      - lambda: |-
-          static const int display_duration = 5;
-          static char last_icon[8] = "";
-          static char last_sensor[32] = "";
-
-          auto now = id(sntp_time).now();
-
-          if (!now.is_valid()) {
-
-            lv_label_set_text(id(clock_label), "--:--:--");
-            return;
-          } else {
-            // Time
-              char buffer[9];
-              now.strftime(buffer, sizeof(buffer), "%H:%M:%S");
-              lv_label_set_text(id(clock_label), buffer);
-          }
-
-          int current_time = now.timestamp;
-          int elapsed = current_time - id(last_change_time);
-
-          if (elapsed >= display_duration) {
-
-            id(last_change_time) = current_time;
-
-            // Update state for next info
-            id(display_state) = (id(display_state) + 1) % 6;
-
-            // Reset to normal colors by default
-            lv_obj_set_style_text_color(id(sensor_icon_label), lv_color_hex(${color_disp_fg}), 0);
-            lv_obj_set_style_text_color(id(sensor_value_label), lv_color_hex(${color_disp_fg}), 0);
-          }
-
-          char icon_buffer[8];
-          char buffer[sizeof(last_sensor)];
-          char buffer_unit[32];
-          switch (id(display_state)) {
-            case 0: // CO2 (ENS160 eCO2)
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F015F"); // mdi-cloud
-              if (isnan(id(ens_eco2).state) || id(ens_eco2).state < 0) {
-                snprintf(buffer, sizeof(buffer), "%s", "NaN");
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
-              } else {
-                int co2 = (int)id(ens_eco2).state;
-
-                lv_color_t color;
-
-                if (co2 < 800)
-                  color = lv_color_hex(${color_air_excellent});
-                else if (co2 < 1200)
-                  color = lv_color_hex(${color_air_moderate});
-                else if (co2 < 1600)
-                  color = lv_color_hex(${color_air_poor});
-                else
-                  color = lv_color_hex(${color_air_unhealthy});
-
-                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
-                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "%d", co2);
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "CO2 - ppm");
-              }
-              break;
-            case 1: // Total Volatile Organic Compounds
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0591"); // mdi-weather-windy
-              if (isnan(id(ens_tvoc).state)) {
-                snprintf(buffer, sizeof(buffer), "%s", "NaN");
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
-              } else {
-                int tvoc = (int)id(ens_tvoc).state;
-
-                lv_color_t color;
-
-                if (tvoc < 150)
-                  color = lv_color_hex(${color_air_excellent});
-                else if (tvoc < 300)
-                  color = lv_color_hex(${color_air_moderate});
-                else if (tvoc < 1000)
-                  color = lv_color_hex(${color_air_poor});
-                else
-                  color = lv_color_hex(${color_air_unhealthy});
-
-                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
-                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-                snprintf(buffer, sizeof(buffer), "%d", (int)id(ens_tvoc).state);
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "COV - ppb");
-              }
-              break;
-            case 2: // Pressure
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F02D1"); // mdi-gauge
-              snprintf(buffer, sizeof(buffer), "%.1f", id(bme680_pressure).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "hPa");
-              break;
-            case 3: // Humidity
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F059A"); // mdi-water-percent
-              snprintf(buffer, sizeof(buffer), "%.1f %%", id(aht_hum).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Humidity");
-              break;
-            case 4: // Temperature
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0504"); // mdi-thermometer
-              snprintf(buffer, sizeof(buffer), "%.1f", id(aht_temp).state);
-              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "°C");
-              break;
-            case 5: // Air Quality global
-              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F04D6"); // mdi-sparkles
-              const std::string &iaq = id(iaq_classification).state;
-
-              if (iaq.empty()) {
-                snprintf(buffer, sizeof(buffer_unit), "%s", "");
-                snprintf(buffer, sizeof(buffer_unit), "%s", "Starting...");
-              } else {
-                snprintf(buffer, sizeof(buffer), "%s", iaq.c_str());
-                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Air quality");
-              }
-
-              lv_color_t color;
-
-              switch(id(air_level)) {
-                case 0: color = lv_color_hex(${color_air_excellent}); break;
-                case 1: color = lv_color_hex(${color_air_good}); break;
-                case 2: color = lv_color_hex(${color_air_moderate}); break;
-                case 3: color = lv_color_hex(${color_air_poor}); break;
-                case 4: color = lv_color_hex(${color_air_unhealthy}); break;
-                default: color = lv_color_hex(${color_disp_fg}); break;
-              }
-
-              lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
-              lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
-
-              break;
-          }
-
-          if (strcmp(last_sensor, buffer) != 0)
-          {
-            snprintf(last_sensor, sizeof(last_sensor), "%s", buffer);
-            lv_label_set_text(id(sensor_value_label), buffer);
-            lv_label_set_text(id(sensor_unit_label), buffer_unit);
-          }
-
-          if (strcmp(last_icon, icon_buffer) != 0) {
-            snprintf(last_icon, sizeof(last_icon), "%s", icon_buffer);
-            lv_label_set_text(id(sensor_icon_label), icon_buffer);
-          }
-
-  - interval: 5s
-    then:
-      - lambda: |-
-          float r=0,g=0,b=0;
-
-          switch(id(air_level)) {
-            case 0: r=0; g=1; b=0; break;
-            case 1: r=0.5; g=1; b=0; break;
-            case 2: r=1; g=1; b=0; break;
-            case 3: r=1; g=0.5; b=0; break;
-            case 4: r=1; g=0; b=0; break;
-          }
-
-          auto call = id(status_led).turn_on();
-          call.set_rgb(r,g,b);
-          call.set_brightness(id(status_led_brightness));
-          call.perform();
-
-  - interval: 500ms
-    then:
-      - lambda: |-
-          float r=0,g=0,b=0;
-
-          switch(id(air_level)) {
-            case 0: r=0; g=1; b=0; break;
-            case 1: r=0.5; g=1; b=0; break;
-            case 2: r=1; g=1; b=0; break;
-            case 3: r=1; g=0.5; b=0; break;
-            case 4: r=1; g=0; b=0; break;
-          }
-
-          auto call = id(status_led).turn_on();
-
-          if (id(air_level) == 4) {
-            id(blink_state) = !id(blink_state);
-            if (id(blink_state)) {
-              call.set_rgb(r,g,b);
-              call.set_brightness(1.0);
-            } else {
-              call.set_brightness(0.0);
-            }
-          } else {
-            call.set_rgb(r,g,b);
-            call.set_brightness(id(status_led_brightness));
-          }
-
-          call.perform();
-
-  # New: Check presence every 5 seconds and restart the script if necessary
-  - interval: 5s
-    then:
-      - if:
-          condition:
-            or:
-              - binary_sensor.is_on: pir_motion_sensor
-              - binary_sensor.is_on: presence_radar_ld2420
-          then:
-            - script.execute: presence_timer_script
+#interval:
+#  - interval: 1s
+#    then:
+#      - lambda: |-
+#          static const int display_duration = 5;
+#          static char last_icon[8] = "";
+#          static char last_sensor[32] = "";
+#
+#          auto now = id(sntp_time).now();
+#
+#          if (!now.is_valid()) {
+#
+#            lv_label_set_text(id(clock_label), "--:--:--");
+#            return;
+#          } else {
+#            // Time
+#              char buffer[9];
+#              now.strftime(buffer, sizeof(buffer), "%H:%M:%S");
+#              lv_label_set_text(id(clock_label), buffer);
+#          }
+#
+#          int current_time = now.timestamp;
+#          int elapsed = current_time - id(last_change_time);
+#
+#          if (elapsed >= display_duration) {
+#
+#            id(last_change_time) = current_time;
+#
+#            // Update state for next info
+#            id(display_state) = (id(display_state) + 1) % 6;
+#
+#            // Reset to normal colors by default
+#            lv_obj_set_style_text_color(id(sensor_icon_label), lv_color_hex(${color_disp_fg}), 0);
+#            lv_obj_set_style_text_color(id(sensor_value_label), lv_color_hex(${color_disp_fg}), 0);
+#          }
+#
+#          char icon_buffer[8];
+#          char buffer[sizeof(last_sensor)];
+#          char buffer_unit[32];
+#          switch (id(display_state)) {
+#            case 0: // CO2 (ENS160 eCO2)
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F015F"); // mdi-cloud
+#              if (isnan(id(ens_eco2).state) || id(ens_eco2).state < 0) {
+#                snprintf(buffer, sizeof(buffer), "%s", "NaN");
+#                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
+#              } else {
+#                int co2 = (int)id(ens_eco2).state;
+#
+#                lv_color_t color;
+#
+#                if (co2 < 800)
+#                  color = lv_color_hex(${color_air_excellent});
+#                else if (co2 < 1200)
+#                  color = lv_color_hex(${color_air_moderate});
+#                else if (co2 < 1600)
+#                  color = lv_color_hex(${color_air_poor});
+#                else
+#                  color = lv_color_hex(${color_air_unhealthy});
+#
+#                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
+#                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
+#                snprintf(buffer, sizeof(buffer), "%d", co2);
+#                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "CO2 - ppm");
+#              }
+#              break;
+#            case 1: // Total Volatile Organic Compounds
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0591"); // mdi-weather-windy
+#              if (isnan(id(ens_tvoc).state)) {
+#                snprintf(buffer, sizeof(buffer), "%s", "NaN");
+#                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "ENS160 Warming up...");
+#              } else {
+#                int tvoc = (int)id(ens_tvoc).state;
+#
+#                lv_color_t color;
+#
+#                if (tvoc < 150)
+#                  color = lv_color_hex(${color_air_excellent});
+#                else if (tvoc < 300)
+#                  color = lv_color_hex(${color_air_moderate});
+#                else if (tvoc < 1000)
+#                  color = lv_color_hex(${color_air_poor});
+#                else
+#                  color = lv_color_hex(${color_air_unhealthy});
+#
+#                lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
+#                lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
+#                snprintf(buffer, sizeof(buffer), "%d", (int)id(ens_tvoc).state);
+#                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "COV - ppb");
+#              }
+#              break;
+#            case 2: // Pressure
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F02D1"); // mdi-gauge
+#              snprintf(buffer, sizeof(buffer), "%.1f", id(bme680_pressure).state);
+#              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "hPa");
+#              break;
+#            case 3: // Humidity
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F059A"); // mdi-water-percent
+#              snprintf(buffer, sizeof(buffer), "%.1f %%", id(aht_hum).state);
+#              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Humidity");
+#              break;
+#            case 4: // Temperature
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F0504"); // mdi-thermometer
+#              snprintf(buffer, sizeof(buffer), "%.1f", id(aht_temp).state);
+#              snprintf(buffer_unit, sizeof(buffer_unit), "%s", "°C");
+#              break;
+#            case 5: // Air Quality global
+#              snprintf(icon_buffer, sizeof(icon_buffer), "\U000F04D6"); // mdi-sparkles
+#              const std::string &iaq = id(iaq_classification).state;
+#
+#              if (iaq.empty()) {
+#                snprintf(buffer, sizeof(buffer_unit), "%s", "");
+#                snprintf(buffer, sizeof(buffer_unit), "%s", "Starting...");
+#              } else {
+#                snprintf(buffer, sizeof(buffer), "%s", iaq.c_str());
+#                snprintf(buffer_unit, sizeof(buffer_unit), "%s", "Air quality");
+#              }
+#
+#              lv_color_t color;
+#
+#              switch(id(air_level)) {
+#                case 0: color = lv_color_hex(${color_air_excellent}); break;
+#                case 1: color = lv_color_hex(${color_air_good}); break;
+#                case 2: color = lv_color_hex(${color_air_moderate}); break;
+#                case 3: color = lv_color_hex(${color_air_poor}); break;
+#                case 4: color = lv_color_hex(${color_air_unhealthy}); break;
+#                default: color = lv_color_hex(${color_disp_fg}); break;
+#              }
+#
+#              lv_obj_set_style_text_color(id(sensor_icon_label), color, 0);
+#              lv_obj_set_style_text_color(id(sensor_value_label), color, 0);
+#
+#              break;
+#          }
+#
+#          if (strcmp(last_sensor, buffer) != 0)
+#          {
+#            snprintf(last_sensor, sizeof(last_sensor), "%s", buffer);
+#            lv_label_set_text(id(sensor_value_label), buffer);
+#            lv_label_set_text(id(sensor_unit_label), buffer_unit);
+#          }
+#
+#          if (strcmp(last_icon, icon_buffer) != 0) {
+#            snprintf(last_icon, sizeof(last_icon), "%s", icon_buffer);
+#            lv_label_set_text(id(sensor_icon_label), icon_buffer);
+#          }
+#
+#  - interval: 5s
+#    then:
+#      - lambda: |-
+#          float r=0,g=0,b=0;
+#
+#          switch(id(air_level)) {
+#            case 0: r=0; g=1; b=0; break;
+#            case 1: r=0.5; g=1; b=0; break;
+#            case 2: r=1; g=1; b=0; break;
+#            case 3: r=1; g=0.5; b=0; break;
+#            case 4: r=1; g=0; b=0; break;
+#          }
+#
+#          auto call = id(status_led).turn_on();
+#          call.set_rgb(r,g,b);
+#          call.set_brightness(id(status_led_brightness));
+#          call.perform();
+#
+#  - interval: 500ms
+#    then:
+#      - lambda: |-
+#          float r=0,g=0,b=0;
+#
+#          switch(id(air_level)) {
+#            case 0: r=0; g=1; b=0; break;
+#            case 1: r=0.5; g=1; b=0; break;
+#            case 2: r=1; g=1; b=0; break;
+#            case 3: r=1; g=0.5; b=0; break;
+#            case 4: r=1; g=0; b=0; break;
+#          }
+#
+#          auto call = id(status_led).turn_on();
+#
+#          if (id(air_level) == 4) {
+#            id(blink_state) = !id(blink_state);
+#            if (id(blink_state)) {
+#              call.set_rgb(r,g,b);
+#              call.set_brightness(1.0);
+#            } else {
+#              call.set_brightness(0.0);
+#            }
+#          } else {
+#            call.set_rgb(r,g,b);
+#            call.set_brightness(id(status_led_brightness));
+#          }
+#
+#          call.perform();
+#
+#  # New: Check presence every 5 seconds and restart the script if necessary
+#  - interval: 5s
+#    then:
+#      - if:
+#          condition:
+#            or:
+#              - binary_sensor.is_on: pir_motion_sensor
+#              - binary_sensor.is_on: presence_radar_ld2420
+#          then:
+#            - script.execute: presence_timer_script
 
 
 ################################################################################
 # SPI
 ################################################################################
-spi:
-  clk_pin: ${spi_clk_pin}
-  mosi_pin: ${spi_mosi_pin}
+#spi:
+#  clk_pin: ${spi_clk_pin}
+#  mosi_pin: ${spi_mosi_pin}
 
 ################################################################################
 # I2C
@@ -347,19 +347,19 @@ i2c:
 ################################################################################
 # UART (required for LD2420 radar)
 ################################################################################
-uart:
-  id: ld2420_uart
-  tx_pin: ${ld2420_uart_tx_pin}
-  rx_pin: ${ld2420_uart_rx_pin}
-  baud_rate: 115200
-  parity: NONE
-  stop_bits: 1
+#uart:
+#  id: ld2420_uart
+#  tx_pin: ${ld2420_uart_tx_pin}
+#  rx_pin: ${ld2420_uart_rx_pin}
+#  baud_rate: 115200
+#  parity: NONE
+#  stop_bits: 1
 
 ################################################################################
 # RADAR mmWave LD2420
 ################################################################################
-ld2420:
-  uart_id: ld2420_uart
+#ld2420:
+#  uart_id: ld2420_uart
 
 ################################################################################
 # SENSOR
@@ -467,10 +467,10 @@ sensor:
     update_interval: 60s
 
   # LD2420 distance measurements for presence detection and movement tracking.
-  - platform: ld2420
-    moving_distance:
-      name: "Moving Distance"
-      id: moving_distance
+  #- platform: ld2420
+  #  moving_distance:
+  #    name: "Moving Distance"
+  #    id: moving_distance
 
 text_sensor:
   - platform: template
@@ -487,40 +487,40 @@ text_sensor:
       }
 
   # LD2420 firmware version for diagnostics
-  - platform: ld2420
-    fw_version:
-      name: LD2420 Firmware
+  #- platform: ld2420
+  #  fw_version:
+  #    name: LD2420 Firmware
 
 binary_sensor:
   # HC-SR501 PIR Motion Sensor
-  - platform: gpio
-    pin:
-      number: ${motion_sensor_pin}
-      mode: INPUT_PULLDOWN  # Force low state (0V) by default
-    id: pir_motion_sensor # Added ID for PIR sensor
-    name: "PIR Motion"
-    device_class: motion
-
-    filters:
-      # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
-      - delayed_on: 200ms
-      # Stay 'ON' for at least 2 seconds before returning to 'OFF'
-      # Creates a cleaner entity in Home Assistant
-      - delayed_off: 2s
-
-    # Once motion is detected
-    on_press:
-      then:
-        - script.execute: presence_timer_script
+  #- platform: gpio
+  #  pin:
+  #    number: ${motion_sensor_pin}
+  #    mode: INPUT_PULLDOWN  # Force low state (0V) by default
+  #  id: pir_motion_sensor # Added ID for PIR sensor
+  #  name: "PIR Motion"
+  #  device_class: motion
+#
+  #  filters:
+  #    # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
+  #    - delayed_on: 200ms
+  #    # Stay 'ON' for at least 2 seconds before returning to 'OFF'
+  #    # Creates a cleaner entity in Home Assistant
+  #    - delayed_off: 2s
+#
+  #  # Once motion is detected
+  #  on_press:
+  #    then:
+  #      - script.execute: presence_timer_script
 
   # LD2420 generates a 'has_target' binary which is 'ON' as soon as it detects presence in its zone
-  - platform: ld2420
-    has_target:
-      id: presence_radar_ld2420 # Added ID for LD2420 sensor
-      name: "Radar Presence"
-      on_press:
-        then:
-          - script.execute: presence_timer_script
+  #- platform: ld2420
+  #  has_target:
+  #    id: presence_radar_ld2420 # Added ID for LD2420 sensor
+  #    name: "Radar Presence"
+  #    on_press:
+  #      then:
+  #        - script.execute: presence_timer_script
 
 number:
   - platform: template
@@ -535,88 +535,88 @@ number:
     restore_value: true
 
   # LD2420 configuration parameters as numbers for easy adjustment from Home Assistant UI
-  - platform: ld2420
-    presence_timeout:
-      name: "Detection Presence Timeout"
-    min_gate_distance:
-      name: "Detection Gate Minimum"
-    max_gate_distance:
-      name: "Detection Gate Maximum"
-    gate_select:
-      name: "Select Gate to Set"
-    still_threshold:
-      name: "Set Still Threshold Value"
-    move_threshold:
-      name: "Set Move Threshold Value"
-    gate_move_sensitivity:
-      name: "Move Calibration Sensitivity Factor"
-    gate_still_sensitivity:
-      name: "Still Calibration Sensitivity Factor"
+  #- platform: ld2420
+  #  presence_timeout:
+  #    name: "Detection Presence Timeout"
+  #  min_gate_distance:
+  #    name: "Detection Gate Minimum"
+  #  max_gate_distance:
+  #    name: "Detection Gate Maximum"
+  #  gate_select:
+  #    name: "Select Gate to Set"
+  #  still_threshold:
+  #    name: "Set Still Threshold Value"
+  #  move_threshold:
+  #    name: "Set Move Threshold Value"
+  #  gate_move_sensitivity:
+  #    name: "Move Calibration Sensitivity Factor"
+  #  gate_still_sensitivity:
+  #    name: "Still Calibration Sensitivity Factor"
 
 button:
   # LD2420 configuration buttons for factory reset, apply config, etc. These call built-in actions of the LD2420 component.
-  - platform: ld2420
-    apply_config:
-      name: "Apply Config"
-    factory_reset:
-      name: "Factory Reset"
-    restart_module:
-      name: "Restart Module"
-    revert_config:
-      name: "Undo Edits"
+  #- platform: ld2420
+  #  apply_config:
+  #    name: "Apply Config"
+  #  factory_reset:
+  #    name: "Factory Reset"
+  #  restart_module:
+  #    name: "Restart Module"
+  #  revert_config:
+  #    name: "Undo Edits"
 ################################################################################
 # DISPLAY
 ################################################################################
 
 # --- Backlight: BL is on GPIO22 via transistor on this board ---
 output:
-  - platform: ledc
-    pin: ${lcd_bl_pin}
-    id: lcd_bl
+  #- platform: ledc
+  #  pin: ${lcd_bl_pin}
+  #  id: lcd_bl
 
 light:
-  - platform: monochromatic
-    id: lcd_backlight
-    name: "LCD Backlight"
-    output: lcd_bl
-    restore_mode: RESTORE_DEFAULT_ON   # turn BL on at boot
+  #- platform: monochromatic
+  #  id: lcd_backlight
+  #  name: "LCD Backlight"
+  #  output: lcd_bl
+  #  restore_mode: RESTORE_DEFAULT_ON   # turn BL on at boot
 
-  - platform: esp32_rmt_led_strip
-    id: status_led
-    name: "Onboard RGB LED"
-    pin: ${status_led_pin}
-    num_leds: 1
-    chipset: ws2812
-    rgb_order: RGB
-    gamma_correct: 2.8
-    default_transition_length: 0.2s
+  #- platform: esp32_rmt_led_strip
+  #  id: status_led
+  #  name: "Onboard RGB LED"
+  #  pin: ${status_led_pin}
+  #  num_leds: 1
+  #  chipset: ws2812
+  #  rgb_order: RGB
+  #  gamma_correct: 2.8
+  #  default_transition_length: 0.2s
 
 # --- Display: MIPI SPI driver, ST7789V chip ---
 display:
-  - platform: mipi_spi
-    id: main_display
-    model: ST7789V
-
-    # Standard 240x320 TFT panel
-    dimensions:
-      width: 240
-      height: 320
-      offset_width: 0
-      offset_height: 0
-
-    cs_pin: ${lcd_cs_pin}
-    dc_pin: ${lcd_dc_pin}
-    reset_pin: ${lcd_reset_pin}
-
-    spi_mode: MODE3        # this board wants mode 3
-    data_rate: 40MHz       # ST7789 supports up to 40-80MHz
-    color_order: bgr       # typical for ST7789; flip to rgb if colors are wrong
-    color_depth: 16        # RGB565
-    invert_colors: true
-
-    # LVGL *must* own the drawing. No lambda here.
-    auto_clear_enabled: false
-    update_interval: never
+  #- platform: mipi_spi
+  #  id: main_display
+  #  model: ST7789V
+#
+  #  # Standard 240x320 TFT panel
+  #  dimensions:
+  #    width: 240
+  #    height: 320
+  #    offset_width: 0
+  #    offset_height: 0
+#
+  #  cs_pin: ${lcd_cs_pin}
+  #  dc_pin: ${lcd_dc_pin}
+  #  reset_pin: ${lcd_reset_pin}
+#
+  #  spi_mode: MODE3        # this board wants mode 3
+  #  data_rate: 40MHz       # ST7789 supports up to 40-80MHz
+  #  color_order: bgr       # typical for ST7789; flip to rgb if colors are wrong
+  #  color_depth: 16        # RGB565
+  #  invert_colors: true
+#
+  #  # LVGL *must* own the drawing. No lambda here.
+  #  auto_clear_enabled: false
+  #  update_interval: never
 
 font:
   - file: "fonts/Roboto-Regular.ttf"
@@ -643,86 +643,87 @@ font:
       - "\U000F04D6" # sparkles
       - "\U000F012B" # clock-outline
 
-lvgl:
-  buffer_size: 25%        # ~38kB for 240x320@RGB565 – safe for ESP32-C6
-  color_depth: 16         # must match display
-  id: "lvgl_display"
-
-  # Global background & default text
-  disp_bg_color: ${color_disp_bg}
-
-  # Not strictly required with a single display, but explicit is nice:
-  displays:
-    - main_display
-  rotation: 270
-
-  style_definitions:
-    - id: clock_style
-      bg_color: ${color_disp_bg}
-      text_color: ${color_disp_fg}
-      border_color: 0x000000
-      border_width: 0
-      text_font: roboto_mono_20
-    - id: icon_style
-      bg_color: ${color_disp_bg}
-      text_color: ${color_disp_fg}
-      border_color: 0x000000
-      border_width: 0
-      text_font: mdi_font_48
-    - id: sensor_value_style
-      bg_color: ${color_disp_bg}
-      text_color: ${color_disp_fg}
-      border_color: 0x000000
-      border_width: 0
-      text_font: roboto_48
-    - id: sensor_unit_style
-      bg_color: ${color_disp_bg}
-      text_color: ${color_disp_fg}
-      border_color: 0x000000
-      border_width: 0
-      text_font: roboto_24
-
-  pages:
-    - id: main_page
-      bg_opa: TRANSP
-      widgets:
-
-        # Heure en haut
-        - label:
-            id: clock_label
-            align: TOP_RIGHT
-            x: -10
-            y: 10
-            width: 80
-            text_align: RIGHT
-            styles: clock_style
-            text: "12:34:56"
-
-        # Ligne séparatrice
-        - line:
-            points:
-              - 10,55
-              - 310,55
-            line_width: 2
-            line_color: ${color_disp_fg}
-
-        - label:
-            id: sensor_icon_label
-            align: CENTER
-            y: -60
-            styles: icon_style
-            text: ""
-
-        - label:
-            id: sensor_value_label
-            align: CENTER
-            styles: sensor_value_style
-            text: ""
-
-        # Unité / description
-        - label:
-            id: sensor_unit_label
-            align: CENTER
-            y: 60
-            styles: sensor_unit_style
-            text: ""
+#lvgl:
+#  buffer_size: 25%        # ~38kB for 240x320@RGB565 – safe for ESP32-C6
+#  color_depth: 16         # must match display
+#  id: "lvgl_display"
+#
+#  # Global background & default text
+#  disp_bg_color: ${color_disp_bg}
+#
+#  # Not strictly required with a single display, but explicit is nice:
+#  displays:
+#    - main_display
+#  rotation: 270
+#
+#  style_definitions:
+#    - id: clock_style
+#      bg_color: ${color_disp_bg}
+#      text_color: ${color_disp_fg}
+#      border_color: 0x000000
+#      border_width: 0
+#      text_font: roboto_mono_20
+#    - id: icon_style
+#      bg_color: ${color_disp_bg}
+#      text_color: ${color_disp_fg}
+#      border_color: 0x000000
+#      border_width: 0
+#      text_font: mdi_font_48
+#    - id: sensor_value_style
+#      bg_color: ${color_disp_bg}
+#      text_color: ${color_disp_fg}
+#      border_color: 0x000000
+#      border_width: 0
+#      text_font: roboto_48
+#    - id: sensor_unit_style
+#      bg_color: ${color_disp_bg}
+#      text_color: ${color_disp_fg}
+#      border_color: 0x000000
+#      border_width: 0
+#      text_font: roboto_24
+#
+#  pages:
+#    - id: main_page
+#      bg_opa: TRANSP
+#      widgets:
+#
+#        # Heure en haut
+#        - label:
+#            id: clock_label
+#            align: TOP_RIGHT
+#            x: -10
+#            y: 10
+#            width: 80
+#            text_align: RIGHT
+#            styles: clock_style
+#            text: "12:34:56"
+#
+#        # Ligne séparatrice
+#        - line:
+#            points:
+#              - 10,55
+#              - 310,55
+#            line_width: 2
+#            line_color: ${color_disp_fg}
+#
+#        - label:
+#            id: sensor_icon_label
+#            align: CENTER
+#            y: -60
+#            styles: icon_style
+#            text: ""
+#
+#        - label:
+#            id: sensor_value_label
+#            align: CENTER
+#            styles: sensor_value_style
+#            text: ""
+#
+#        # Unité / description
+#        - label:
+#            id: sensor_unit_label
+#            align: CENTER
+#            y: 60
+#            styles: sensor_unit_style
+#            text: ""
+#
