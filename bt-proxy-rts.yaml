@@ -64,12 +64,14 @@ text_sensor:
   - platform: template
     id: somfy_rx_last
     name: "Detected Somfy Remote"
+    icon: "mdi:remote"
 
 button:
   - platform: template
     id: program_livingroom_door
     name: "Prog Volet salon"
     entity_category: config
+    icon: "mdi:button-cursor"
 
 # --- Backlight: BL is on GPIO22 via transistor on this board ---
 output:
