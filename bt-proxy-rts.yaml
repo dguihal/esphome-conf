@@ -18,7 +18,7 @@ esphome:
 
 esp32:
   board: ${node_c6.board}
-  variant: ${node_c6.variant}
+  variant: esp32c6
   flash_size: 4MB
   framework:
     type: esp-idf
