@@ -8,7 +8,6 @@ substitutions:
   cc1101_cs_gpio: "GPIO02"          # CC1101 CSN (Pin 4)
   cc1101_transmitter_gpio: "GPIO05" # CC1101 GDO0 (Pin 3)
   cc1101_receiver_gpio: "GPIO23"    # CC1101 GDO2 (Pin 8)
-  <<: !include common/nodes.yaml
 
 <<: !include common/base.yaml
 
