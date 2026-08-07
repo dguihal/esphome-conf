@@ -10,6 +10,8 @@ substitutions:
   cc1101_receiver_gpio: "GPIO23"    # CC1101 GDO2 (Pin 8)
   <<: !include common/nodes.yaml
 
+<<: !include common/base.yaml
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -25,8 +27,6 @@ external_components:
   - source: github://NicoIIT/esphome-ble_adv_proxy@d7412240e7edd21b5717b3c6d3235aa1aeaf64cf
   - source: github://leonardpitzu/esphome_somfy@ca0ff91e6ea8f5c39be40e35aebcefd6278d4fc2
     components: [somfy]
-
-<<: !include common/base.yaml
 
 # Enable logging
 logger:
