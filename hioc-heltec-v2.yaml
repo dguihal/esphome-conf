@@ -7,10 +7,6 @@ substitutions:
 esphome:
   name: ${device_name}
   friendly_name: ${device_friendly_name}
-  on_boot:
-    priority: 600
-    then:
-      - output.turn_on: oled_vext
   build_flags:
     - -DIOHOME_FRAME_LOG
 
