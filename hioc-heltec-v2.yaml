@@ -20,35 +20,12 @@ esphome:
     - id: device_dimmer
       name: "Dimmable Light"
 
-esp32:
-  variant: esp32
-  framework:
-    type: esp-idf
-
-spi:
-  clk_pin:
-    number: 5
-    # GPIO5 is a strapping pin on the ESP32; it is only ever driven as SPI CLK here.
-    ignore_strapping_warning: true
-  mosi_pin: 27
-  miso_pin: 19
-
-home_io_control:
-  cs_pin: 18
-  rst_pin: 14
-  dio0_pin: 26
-  radio_type: sx1276
-
 # Board SPI bus + radio pinout — single source of truth in config/boards/.
 packages:
-  board: !include boards/heltec-v2.yaml
+  board: !include common/heltec-v2.yaml
 
 logger:
   level: DEBUG
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
 
 i2c:
   sda: 4
