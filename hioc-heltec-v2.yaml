@@ -1,3 +1,4 @@
+# https://github.com/laberning/home_io_control/blob/main/config/heltec-wifi-lora-32-v2.yaml
 substitutions:
   device_name: hioc-heltec-v2
   device_friendly_name: Home IO Control WiFi LoRa32 V2
