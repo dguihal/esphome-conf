@@ -62,21 +62,6 @@ external_components:
   - source:
       type: local
       path: components
-
-font:
-  - file: "gfonts://Roboto"
-    id: oled_font_small
-    size: 12
-  - file: "gfonts://Roboto"
-    id: oled_font_title
-    size: 16
-
-output:
-  - platform: gpio
-    id: oled_vext
-    pin:
-      number: 21
-      inverted: true
       
 home_io_control:
   node_id: !secret hub_node_id
@@ -99,21 +84,6 @@ cover:
     status_poll_interval: 1000ms
     linked_remotes:
       - !secret example_io_device_linked_remote_id
-    on_opening:
-      - script.execute:
-          id: oled_show_state
-          cover_label: "Patio"
-          status_text: "Opening"
-    on_closing:
-      - script.execute:
-          id: oled_show_state
-          cover_label: "Patio"
-          status_text: "Closing"
-    on_idle:
-      - script.execute:
-          id: oled_show_idle
-          cover_label: "Patio"
-          position: !lambda 'return id(patio_awning).position;'
 
 light:
   - platform: home_io_control
