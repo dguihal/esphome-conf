@@ -26,11 +26,11 @@ logger:
 
 # Enable Home Assistant API
 api:
-  services:
-    - service: reset_main_counter
+  actions:
+    - action: reset_main_counter
       then:
         - script.execute: reset_main_counter
-    - service: reset_secondary_counter
+    - action: reset_secondary_counter
       then:
         - script.execute: reset_secondary_counter
   homeassistant_services: true
