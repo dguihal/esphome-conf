@@ -46,6 +46,7 @@ esp32:
   flash_size: 8MB
   framework:
     type: esp-idf
+    
 <<: !include common/base.yaml
 
 # Enable logging
