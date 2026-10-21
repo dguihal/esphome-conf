@@ -24,7 +24,7 @@ esp32:
 
 external_components:
   - source: github://NicoIIT/esphome-ble_adv_proxy@d7412240e7edd21b5717b3c6d3235aa1aeaf64cf
-  - source: github://leonardpitzu/esphome_somfy@049385beb166522f07714c8d5ee69d0bd43c04e5
+  - source: github://leonardpitzu/esphome_somfy@063f70a0006f2fc9effa2261fa555166919db7a3
     components: [somfy]
 
 # Enable logging
