@@ -591,7 +591,7 @@ light:
   #  default_transition_length: 0.2s
 
 # --- Display: MIPI SPI driver, ST7789V chip ---
-display:
+#display:
   #- platform: mipi_spi
   #  id: main_display
   #  model: ST7789V
