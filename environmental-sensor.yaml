@@ -26,7 +26,7 @@ substitutions:
   #ld2420_uart_rx_pin: "GPIO21"
   # Peripherals
   #status_led_pin: "GPIO10" # Onboard RGB
-  #motion_sensor_pin: "GPIO11"
+  motion_sensor_pin: "GPIO23"
 
 esphome:
   name: ${name}
@@ -490,15 +490,15 @@ text_sensor:
   #  fw_version:
   #    name: LD2420 Firmware
 
-#binary_sensor:
+binary_sensor:
   # HC-SR501 PIR Motion Sensor
-  #- platform: gpio
-  #  pin:
-  #    number: ${motion_sensor_pin}
-  #    mode: INPUT_PULLDOWN  # Force low state (0V) by default
-  #  id: pir_motion_sensor # Added ID for PIR sensor
-  #  name: "PIR Motion"
-  #  device_class: motion
+  - platform: gpio
+    pin:
+      number: ${motion_sensor_pin}
+      mode: INPUT_PULLDOWN  # Force low state (0V) by default
+    id: pir_motion_sensor # Added ID for PIR sensor
+    name: "PIR Motion"
+    device_class: motion
 #
   #  filters:
   #    # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
