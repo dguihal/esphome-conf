@@ -568,7 +568,7 @@ button:
 ################################################################################
 
 # --- Backlight: BL is on GPIO22 via transistor on this board ---
-output:
+#output:
   #- platform: ledc
   #  pin: ${lcd_bl_pin}
   #  id: lcd_bl
