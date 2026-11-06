@@ -552,7 +552,7 @@ number:
   #  gate_still_sensitivity:
   #    name: "Still Calibration Sensitivity Factor"
 
-button:
+#button:
   # LD2420 configuration buttons for factory reset, apply config, etc. These call built-in actions of the LD2420 component.
   #- platform: ld2420
   #  apply_config:
