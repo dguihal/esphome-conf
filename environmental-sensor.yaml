@@ -490,7 +490,7 @@ text_sensor:
   #  fw_version:
   #    name: LD2420 Firmware
 
-binary_sensor:
+#binary_sensor:
   # HC-SR501 PIR Motion Sensor
   #- platform: gpio
   #  pin:
