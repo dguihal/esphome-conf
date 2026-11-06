@@ -15,8 +15,8 @@ substitutions:
   #spi_clk_pin: "GPIO7"
   #spi_mosi_pin: "GPIO6"
   # I2C Bus (Sensors)
-  i2c_sda_pin: "GPIO3"
-  i2c_scl_pin: "GPIO2"
+  i2c_sda_pin: "GPIO6"
+  i2c_scl_pin: "GPIO5"
   # Display control
   #lcd_cs_pin: "GPIO14"
   #lcd_dc_pin: "GPIO1"
