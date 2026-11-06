@@ -573,7 +573,7 @@ output:
   #  pin: ${lcd_bl_pin}
   #  id: lcd_bl
 
-light:
+#light:
   #- platform: monochromatic
   #  id: lcd_backlight
   #  name: "LCD Backlight"
