@@ -495,7 +495,7 @@ binary_sensor:
   - platform: gpio
     pin:
       number: ${motion_sensor_pin}
-      mode: INPUT_PULLDOWN  # Force low state (0V) by default
+      # mode: INPUT_PULLDOWN  # Force low state (0V) by default
     id: pir_motion_sensor # Added ID for PIR sensor
     name: "PIR Motion"
     device_class: motion
