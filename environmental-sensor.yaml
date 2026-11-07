@@ -499,13 +499,12 @@ binary_sensor:
     id: pir_motion_sensor # Added ID for PIR sensor
     name: "PIR Motion"
     device_class: motion
-#
-  #  filters:
-  #    # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
-  #    - delayed_on: 200ms
-  #    # Stay 'ON' for at least 2 seconds before returning to 'OFF'
-  #    # Creates a cleaner entity in Home Assistant
-  #    - delayed_off: 2s
+    filters:
+      # Only trigger 'ON' if motion lasts at least 0.1s (avoids noise)
+      - delayed_on: 200ms
+      # Stay 'ON' for at least 2 seconds before returning to 'OFF'
+      # Creates a cleaner entity in Home Assistant
+      - delayed_off: 2s
 #
   #  # Once motion is detected
   #  on_press:
