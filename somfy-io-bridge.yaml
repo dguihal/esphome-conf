@@ -1,0 +1,148 @@
+---
+substitutions:
+  name: somfy-io-bridge
+  friendly_name: Somfy_IO_Bridge
+
+packages:
+  board: !include common/heltec-v2.yaml
+  base: !include common/base.yaml
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  build_flags:
+    - -DIOHOME_FRAME_LOG
+  on_boot:
+    priority: 600
+    then:
+      - output.turn_on: led_ble
+      - output.turn_off: led_wifi
+      - output.turn_off: led_lora
+
+external_components:
+  - source: github://laberning/home_io_control@32b4a77c30b881c7fb28db02b176ed2b3fc1f710
+    components: [home_io_control]
+
+logger:
+  level: INFO
+
+wifi:
+  on_connect:
+    - output.turn_on: led_wifi
+  on_disconnect:
+    - output.turn_off: led_wifi
+
+output:
+  - platform: gpio
+    id: led_lora
+    pin: GPIO22
+  - platform: gpio
+    id: led_wifi
+    pin: GPIO23
+  - platform: gpio
+    id: led_ble
+    pin: GPIO25
+
+script:
+  - id: flash_lora_led
+    mode: restart
+    then:
+      - output.turn_on: led_lora
+      - delay: 150ms
+      - output.turn_off: led_lora
+
+binary_sensor:
+  # SX1276 DIO0 remains asserted while a received packet is available to the
+  # radio driver. It flashes the LoRa LED for both 1W and 2W IO traffic.
+  - platform: gpio
+    id: io_radio_activity
+    name: IO Radio Activity
+    internal: true
+    pin:
+      number: GPIO26
+      allow_other_uses: true
+    on_press:
+      - script.execute: flash_lora_led
+
+home_io_control:
+  # Keep these values stable after enrolling the bridge with a Somfy IO device.
+  node_id: !secret somfy_io_hub_node_id
+  system_key: !secret somfy_io_hub_system_key
+
+  # Exposes only known 1W remotes as Home Assistant events. Add each remote
+  # here once, then select explicitly which ones follow each device below.
+  exposed_senders:
+    - !secret somfy_io_remote_veranda_id
+    - !secret somfy_io_remote_veranda1_id
+    # - !secret somfy_io_remote_chambre_id
+
+  # 2W onboarding helpers. They can be removed after 2W devices are configured.
+  discover_and_pair_button: true
+  accept_foreign_pairing: true
+  scan_paired_devices_button: true
+
+  # One virtual 1W controller represents one independently controlled device.
+  # Duplicate this block with a different id when adding another actuator.
+  oneway_controllers:
+    - id: volet_veranda_1
+      io_device_type: roller_shutter
+      manufacturer: somfy
+      execute_broadcast: all
+      commands: [open, close, stop]
+      enrollment: true
+      drives:
+        - !secret somfy_io_device_veranda1_id
+      cover: "Volet véranda 1"
+      device_class: shutter
+      open_duration: 25s
+      close_duration: 25s
+      set_position: timed
+      follows:
+        - !secret somfy_io_remote_veranda_id
+        - !secret somfy_io_remote_veranda1_id
+        # Add another authorized remote for this cover with one more entry.
+
+    # Example: independently enrolled 1W dimmable Somfy IO light.
+    # `open` means on, `close` means off. Uncomment the full block, adapt the
+    # fade durations, then enroll this identity with the light in learn mode.
+    # - id: lumiere_io_1
+    #   io_device_type: light
+    #   manufacturer: somfy
+    #   execute_broadcast: all
+    #   commands: [open, close, stop]
+    #   enrollment: true
+    #   light: "Lumiere Somfy IO 1"
+    #   dimmable: true
+    #   on_duration: 4.7s
+    #   off_duration: 4.7s
+    #   set_position: timed
+    #   follows:
+    #     - !secret somfy_io_remote_chambre_id
+
+#cover:
+#  - platform: home_io_control
+#    id: volet_veranda_1
+#    name: "Volet véranda 1"
+#    io_device_id: !secret somfy_io_device_veranda1_id
+#    io_device_type: "vertical_exterior_awning"
+#    invert_position: true
+#    status_poll_interval: 2s
+#    linked_remotes:
+#      - !secret somfy_io_remote_veranda_id
+#      - !secret somfy_io_remote_veranda1_id
+#    optimistic_state: true
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi Signal
+    update_interval: 60s
+    entity_category: diagnostic
+  - platform: uptime
+    name: Uptime
+    update_interval: 60s
+    entity_category: diagnostic
+
+button:
+  - platform: restart
+    name: Restart
+    entity_category: diagnostic

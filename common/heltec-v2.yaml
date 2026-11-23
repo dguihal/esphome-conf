@@ -1,4 +1,4 @@
-# Board pinout — Heltec WiFi LoRa32 V2 (ESP32 + Semtech SX1276).
+# Board pinout — Heltec WiFi LoRa32 V2 / Wireless Bridge (ESP32 + Semtech SX1276).
 # https://github.com/laberning/home_io_control/blob/main/config/boards/heltec-v2.yaml
 #
 # The single source of truth for this board's SPI bus and radio pin assignment. Consumed via
@@ -23,5 +23,7 @@ spi:
 home_io_control:
   cs_pin: 18
   rst_pin: 14
-  dio0_pin: 26
+  dio0_pin:
+    number: 26
+    allow_other_uses: true
   radio_type: sx1276
