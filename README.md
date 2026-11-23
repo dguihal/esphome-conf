@@ -98,3 +98,51 @@ Station de monitoring de la qualité de l'air avec affichage cyclique sur écran
 - Ajustement dynamique des couleurs (Vert -> Rouge) selon les seuils de CO2/COV.
 - Gestion d'énergie : l'écran s'assombrit après X secondes sans mouvement.
 - LED de statut synchronisée sur la qualité de l'air (clignote en rouge en cas d'alerte).
+
+### 4. Pont Somfy IO sur Heltec Wireless Bridge
+
+Fichier: [somfy-io-bridge.yaml](somfy-io-bridge.yaml)
+
+**Matériel :**
+
+- Carte 868 MHz : [Heltec Wireless Bridge](https://heltec.org/project/wireless-bridge/)
+  avec radio Semtech SX1276 intégrée.
+- Antenne 868 MHz adaptée, indispensable avant toute émission.
+- Composant :
+  [laberning/home_io_control](https://github.com/laberning/home_io_control).
+
+La carte utilise le bus SPI intégré (`GPIO5/27/19`) et les signaux radio
+(`CS18`, `RESET14`, `DIO0 26`) de la version 868 MHz. Aucune radio externe
+n'est nécessaire.
+
+**Fonctionnalités :**
+
+- Contrôle Somfy IO 1W (`Ouvrir`, `Fermer`, `Stop`) avec un état de volet
+  estimé à partir des temps de course.
+- Enrôlement du pont comme télécommande 1W Somfy supplémentaire.
+- Écoute des télécommandes Somfy IO 1W déjà autorisées. Les appuis sont
+  décodés dans les journaux DEBUG et publiés dans Home Assistant sous
+  l'événement `esphome.home_io_control_sender_event`.
+- Préparation au 2W : boutons de découverte/appairage, récupération de clé et
+  recherche des périphériques déjà appairés.
+
+Les identifiants `somfy_io_hub_node_id` et `somfy_io_hub_system_key` doivent
+rester inchangés après l'enrôlement. Pour identifier une télécommande, flashez
+la configuration, appuyez sur ses boutons puis relevez l'identifiant affiché
+après `rx 1W remote` dans les journaux. Ajoutez-le à
+un secret dédié, par exemple `somfy_io_remote_salon_id`, puis référencez ce
+secret dans `exposed_senders` et dans le `follows` de chaque périphérique
+concerné. Cette organisation permet d'associer plusieurs télécommandes à
+plusieurs périphériques sans faire suivre toutes les commandes à chaque
+entité. Une map imbriquée dans `secrets.yaml` ne peut pas être utilisée
+directement : ESPHome attend des listes plates dans ces deux champs.
+
+Pour appairer le pont, mettez le moteur en mode apprentissage avec une
+télécommande déjà enregistrée puis utilisez le bouton `Enroll 1W Controller`
+créé dans Home Assistant. Une identité 1W doit être enrôlée séparément pour
+chaque périphérique piloté indépendamment.
+
+Le 1W ne fournit ni accusé de réception ni position réelle : l'entité Home
+Assistant expose donc une position estimée. Le 2W nécessite une configuration
+propre à chaque périphérique et reste disponible via les assistants
+d'appairage, mais n'est pas activé tant qu'aucune entité 2W n'est déclarée.
