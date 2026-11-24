@@ -117,6 +117,23 @@ home_io_control:
       follows:
         - !secret somfy_io_remote_veranda_id
         - !secret somfy_io_remote_veranda1_id
+
+    - id: volet_veranda_1
+      io_device_type: roller_shutter
+      manufacturer: somfy
+      execute_broadcast: all
+      commands: [open, close, stop]
+      enrollment: true
+      drives:
+        - !secret somfy_io_device_veranda1_id
+      cover: "Volet véranda 1"
+      device_class: shutter
+      open_duration: 25s
+      close_duration: 25s
+      set_position: timed
+      follows:
+        - !secret somfy_io_remote_veranda_id
+        - !secret somfy_io_remote_veranda1_id
     # Example: independently enrolled 1W dimmable Somfy IO light.
     # `open` means on, `close` means off. Uncomment the full block, adapt the
     # fade durations, then enroll this identity with the light in learn mode.
