@@ -152,7 +152,7 @@ home_io_control:
         - !secret somfy_io_remote_veranda_id
         - !secret somfy_io_remote_veranda4_id
 
-    - id: volet_veranda_1
+    - id: volet_veranda_5
       io_device_type: roller_shutter
       manufacturer: somfy
       execute_broadcast: all
@@ -160,7 +160,7 @@ home_io_control:
       enrollment: true
       drives:
         - !secret somfy_io_device_veranda1_id
-      cover: "Volet véranda 1"
+      cover: "Volet véranda 5"
       device_class: shutter
       open_duration: 25s
       close_duration: 25s
