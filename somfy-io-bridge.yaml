@@ -108,7 +108,7 @@ home_io_control:
       commands: [open, close, stop]
       enrollment: true
       drives:
-        - !secret somfy_io_device_veranda1_id
+        - !secret somfy_io_device_veranda2_id
       cover: "Volet véranda 2"
       device_class: shutter
       open_duration: 25s
@@ -133,7 +133,7 @@ home_io_control:
       set_position: timed
       follows:
         - !secret somfy_io_remote_veranda_id
-        - !secret somfy_io_remote_veranda1_id
+        - !secret somfy_io_remote_veranda3_id
 
     - id: volet_veranda_1
       io_device_type: roller_shutter
