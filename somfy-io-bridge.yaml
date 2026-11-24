@@ -135,7 +135,7 @@ home_io_control:
         - !secret somfy_io_remote_veranda_id
         - !secret somfy_io_remote_veranda3_id
 
-    - id: volet_veranda_1
+    - id: volet_veranda_4
       io_device_type: roller_shutter
       manufacturer: somfy
       execute_broadcast: all
