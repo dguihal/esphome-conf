@@ -168,7 +168,7 @@ home_io_control:
       follows:
         - !secret somfy_io_remote_veranda_id
         - !secret somfy_io_remote_veranda5_id
-        
+
     # Example: independently enrolled 1W dimmable Somfy IO light.
     # `open` means on, `close` means off. Uncomment the full block, adapt the
     # fade durations, then enroll this identity with the light in learn mode.
@@ -185,19 +185,6 @@ home_io_control:
     #   set_position: timed
     #   follows:
     #     - !secret somfy_io_remote_chambre_id
-
-#cover:
-#  - platform: home_io_control
-#    id: volet_veranda_1
-#    name: "Volet véranda 1"
-#    io_device_id: !secret somfy_io_device_veranda1_id
-#    io_device_type: "vertical_exterior_awning"
-#    invert_position: true
-#    status_poll_interval: 2s
-#    linked_remotes:
-#      - !secret somfy_io_remote_veranda_id
-#      - !secret somfy_io_remote_veranda1_id
-#    optimistic_state: true
 
 sensor:
   - platform: wifi_signal
