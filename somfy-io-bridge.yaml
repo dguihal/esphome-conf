@@ -87,11 +87,10 @@ home_io_control:
     - id: volet_veranda_1
       io_device_type: roller_shutter
       manufacturer: somfy
+      node_id: !secret somfy_io_device_veranda1_id
       execute_broadcast: all
       commands: [open, close, stop]
       enrollment: true
-      drives:
-        - !secret somfy_io_device_veranda1_id
       cover: "Volet véranda 1"
       device_class: shutter
       open_duration: 25s
