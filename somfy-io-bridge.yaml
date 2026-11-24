@@ -100,7 +100,6 @@ home_io_control:
       follows:
         - !secret somfy_io_remote_veranda_id
         - !secret somfy_io_remote_veranda1_id
-        # Add another authorized remote for this cover with one more entry.
 
     # Example: independently enrolled 1W dimmable Somfy IO light.
     # `open` means on, `close` means off. Uncomment the full block, adapt the
