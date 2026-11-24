@@ -159,7 +159,7 @@ home_io_control:
       commands: [open, close, stop]
       enrollment: true
       drives:
-        - !secret somfy_io_device_veranda1_id
+        - !secret somfy_io_device_veranda5_id
       cover: "Volet véranda 5"
       device_class: shutter
       open_duration: 25s
