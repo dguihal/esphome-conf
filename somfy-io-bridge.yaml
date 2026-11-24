@@ -167,7 +167,8 @@ home_io_control:
       set_position: timed
       follows:
         - !secret somfy_io_remote_veranda_id
-        - !secret somfy_io_remote_veranda1_id
+        - !secret somfy_io_remote_veranda5_id
+        
     # Example: independently enrolled 1W dimmable Somfy IO light.
     # `open` means on, `close` means off. Uncomment the full block, adapt the
     # fade durations, then enroll this identity with the light in learn mode.
