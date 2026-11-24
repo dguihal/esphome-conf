@@ -150,7 +150,7 @@ home_io_control:
       set_position: timed
       follows:
         - !secret somfy_io_remote_veranda_id
-        - !secret somfy_io_remote_veranda1_id
+        - !secret somfy_io_remote_veranda4_id
 
     - id: volet_veranda_1
       io_device_type: roller_shutter
