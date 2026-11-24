@@ -20,7 +20,7 @@ esphome:
       - output.turn_off: led_lora
 
 external_components:
-  - source: github://laberning/home_io_control@32b4a77c30b881c7fb28db02b176ed2b3fc1f710
+  - source: github://laberning/home_io_control@b86d661335f42ce3c196ce050d54df9d0a77b1b4
     components: [home_io_control]
 
 logger:
