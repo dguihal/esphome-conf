@@ -51,18 +51,18 @@ script:
       - delay: 150ms
       - output.turn_off: led_lora
 
-binary_sensor:
-  # SX1276 DIO0 remains asserted while a received packet is available to the
-  # radio driver. It flashes the LoRa LED for both 1W and 2W IO traffic.
-  - platform: gpio
-    id: io_radio_activity
-    name: IO Radio Activity
-    internal: true
-    pin:
-      number: GPIO26
-      allow_other_uses: true
-    on_press:
-      - script.execute: flash_lora_led
+# binary_sensor:
+#   # SX1276 DIO0 remains asserted while a received packet is available to the
+#   # radio driver. It flashes the LoRa LED for both 1W and 2W IO traffic.
+#   - platform: gpio
+#     id: io_radio_activity
+#     name: IO Radio Activity
+#     internal: true
+#     pin:
+#       number: GPIO26
+#       allow_other_uses: true
+#     on_press:
+#       - script.execute: flash_lora_led
 
 home_io_control:
   # Keep these values stable after enrolling the bridge with a Somfy IO device.
