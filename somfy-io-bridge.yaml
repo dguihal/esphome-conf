@@ -122,8 +122,7 @@ home_io_control:
       execute_broadcast: all
       commands: [open, close, stop]
       enrollment: true
-      drives:
-        - !secret somfy_io_device_veranda3_id
+      node_id: !secret somfy_io_device_veranda3_id
       cover: "Volet véranda 3"
       device_class: shutter
       open_duration: 25s
