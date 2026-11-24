@@ -43,7 +43,6 @@ output:
     id: led_ble
     pin: GPIO25
 
-
 home_io_control:
   # Keep these values stable after enrolling the bridge with a Somfy IO device.
   node_id: !secret somfy_io_hub_node_id
