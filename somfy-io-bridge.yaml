@@ -74,6 +74,8 @@ home_io_control:
       enrollment: true
       node_id: !secret somfy_io_1w_volet_veranda1_id
       cover: "Volet véranda 1 (1W)"
+      drives:
+        
       device_class: shutter
       open_duration: 25s
       close_duration: 25s
