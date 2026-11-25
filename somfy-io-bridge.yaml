@@ -164,6 +164,18 @@ home_io_control:
     #   follows:
     #     - !secret somfy_io_remote_chambre_id
 
+  light:
+  - platform: home_io_control
+    id: garden_light
+    name: "Garden Light"
+    io_device_id: "D15C05"
+
+  - platform: home_io_control
+    id: dimmable_light
+    name: "Dimmable Light"
+    io_device_id: "D15C06"
+    dimmable: true
+    
 sensor:
   - platform: wifi_signal
     name: WiFi Signal
