@@ -165,16 +165,16 @@ home_io_control:
     #     - !secret somfy_io_remote_chambre_id
 
   light:
-  - platform: home_io_control
-    id: lumiere_veranda_1
-    name: "Lumiere Veranda 1"
-    io_device_id: "616D4B"
+    - platform: home_io_control
+      id: lumiere_veranda_1
+      name: "Lumiere Veranda 1"
+      io_device_id: "616D4B"
 
-  - platform: home_io_control
-    id: lumiere_veranda_2
-    name: "Lumiere Veranda 2"
-    io_device_id: "7F789A"
-    dimmable: true
+    - platform: home_io_control
+      id: lumiere_veranda_2
+      name: "Lumiere Veranda 2"
+      io_device_id: "7F789A"
+      dimmable: true
 
 sensor:
   - platform: wifi_signal
