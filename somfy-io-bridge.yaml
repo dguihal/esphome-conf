@@ -61,8 +61,8 @@ home_io_control:
 
   # 2W onboarding helpers. They can be removed after 2W devices are configured.
   # discover_and_pair_button: true
-  accept_foreign_pairing: true
-  scan_paired_devices_button: true
+  # accept_foreign_pairing: true
+  # scan_paired_devices_button: true
 
   # One virtual 1W controller represents one independently controlled device.
   # Duplicate this block with a different id when adding another actuator.
