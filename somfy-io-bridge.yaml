@@ -170,7 +170,7 @@ light:
 cover:
   - platform: home_io_control
     id: volet_veranda_1_2w
-    name: "Patio Awning"
+    name: "Volet véranda 1 (2W)"
     io_device_id: "FEEB1E"
     io_device_type: "vertical_exterior_awning"
     invert_position: true
