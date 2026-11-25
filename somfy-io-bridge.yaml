@@ -103,7 +103,7 @@ home_io_control:
       io_device_type: roller_shutter
       manufacturer: somfy
       execute_broadcast: all
-#      commands: [open, close, stop]
+      # commands: [open, close, stop]
       enrollment: true
       node_id: !secret somfy_io_device_veranda3_id
       cover: "Volet véranda 3"
