@@ -168,7 +168,7 @@ home_io_control:
   - platform: home_io_control
     id: lumiere_veranda_1
     name: "Lumiere Veranda 1"
-    io_device_id: "D15C05"
+    io_device_id: "616D4B"
 
   - platform: home_io_control
     id: lumiere_veranda_2
