@@ -180,6 +180,19 @@ cover:
       - !secret somfy_io_1w_remote_veranda1_id
       - !secret somfy_io_1w_volet_veranda1_id
     optimistic_state: true
+    
+  - platform: home_io_control
+    id: volet_veranda_1_2w
+    name: "Volet véranda 1 (2W)"
+    io_device_id: !secret somfy_io_2w_volet_veranda1_id
+    io_device_type: "vertical_exterior_awning"
+    invert_position: true
+    status_poll_interval: 2s
+    linked_remotes:
+      - !secret somfy_io_1w_remote_veranda_id
+      - !secret somfy_io_1w_remote_veranda1_id
+      - !secret somfy_io_1w_volet_veranda1_id
+    optimistic_state: true
 
 sensor:
   - platform: wifi_signal
