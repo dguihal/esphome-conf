@@ -172,7 +172,8 @@ light:
   - platform: home_io_control
     id: lumiere_veranda_4
     name: "Lumiere Veranda 4"
-    io_device_id: "B8A9C2"
+    io_device_id: !secret somfy_io_2w_lumiere_veranda4_id
+    # io_device_id: "B8A9C2"
     dimmable: true
 
 sensor:
