@@ -20,7 +20,7 @@ esphome:
       - output.turn_off: led_lora
 
 external_components:
-  - source: github://laberning/home_io_control@32b4a77c30b881c7fb28db02b176ed2b3fc1f710
+  - source: github://laberning/home_io_control@5807f8ac6bc45d410fab5ccd40d1cae621833ece
     components: [home_io_control]
 
 logger:
@@ -53,7 +53,10 @@ home_io_control:
   exposed_senders:
     - !secret somfy_io_remote_veranda_id
     - !secret somfy_io_remote_veranda1_id
-    # - !secret somfy_io_remote_chambre_id
+    - !secret somfy_io_remote_veranda2_id
+    - !secret somfy_io_remote_veranda3_id
+    - !secret somfy_io_remote_veranda4_id
+    - !secret somfy_io_remote_veranda5_id
 
   # 2W onboarding helpers. They can be removed after 2W devices are configured.
   discover_and_pair_button: true

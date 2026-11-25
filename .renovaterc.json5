@@ -22,9 +22,6 @@
     },
     {
       description: 'Validation manuelle requise pour ESPHome et les composants externes',
-      matchPackageNames: [
-        'esphome/esphome',
-      ],
       matchManagers: [
         'custom.regex',
       ],
@@ -34,16 +31,16 @@
   customManagers: [
     {
       customType: 'regex',
-      description: 'Suivi des composants externes via Tags ou SHAs',
+      description: 'Suit la branche par défaut des composants GitHub tout en conservant un SHA épinglé',
       managerFilePatterns: [
-        '/^.*\\.yaml$/',
-        '/^common/.*\\.yaml$/',
+        '/\\.ya?ml$/',
       ],
       matchStrings: [
-        'source:\\s*github://(?<depName>[^@\\s]+)@(?<currentValue>[^\\s]+)',
+        'source:\\s*github://(?<depName>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@(?<currentDigest>[0-9a-f]{40})(?:\\s|$)',
       ],
-      datasourceTemplate: 'github-tags',
-      versioningTemplate: 'docker',
+      currentValueTemplate: 'HEAD',
+      packageNameTemplate: 'https://github.com/{{{depName}}}.git',
+      datasourceTemplate: 'git-refs',
     },
     {
       customType: 'regex',
