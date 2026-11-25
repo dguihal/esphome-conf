@@ -151,7 +151,7 @@ light:
   - platform: home_io_control
     id: lumiere_veranda_1
     name: "Lumiere Veranda 1"
-    io_device_id:  !secret somfy_io_2w_lumiere_veranda1_id
+    io_device_id: !secret somfy_io_2w_lumiere_veranda1_id
     io_device_id: "7F789A"
     dimmable: true
 
