@@ -52,12 +52,12 @@ home_io_control:
   # Exposes only known 1W remotes as Home Assistant events. Add each remote
   # here once, then select explicitly which ones follow each device below.
   exposed_senders:
-    - !secret somfy_io_remote_veranda_id
-    - !secret somfy_io_remote_veranda1_id
-    - !secret somfy_io_remote_veranda2_id
-    - !secret somfy_io_remote_veranda3_id
-    - !secret somfy_io_remote_veranda4_id
-    - !secret somfy_io_remote_veranda5_id
+    - !secret somfy_io_1w_remote_veranda_id
+    - !secret somfy_io_1w_remote_veranda1_id
+    - !secret somfy_io_1w_remote_veranda2_id
+    - !secret somfy_io_1w_remote_veranda3_id
+    - !secret somfy_io_1w_remote_veranda4_id
+    - !secret somfy_io_1w_remote_veranda5_id
 
   # 2W onboarding helpers. They can be removed after 2W devices are configured.
   discover_and_pair_button: true
