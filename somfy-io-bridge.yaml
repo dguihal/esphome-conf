@@ -169,7 +169,7 @@ light:
 
 cover:
   - platform: home_io_control
-    id: volet
+    id: volet_
     name: "Patio Awning"
     io_device_id: "FEEB1E"
     io_device_type: "vertical_exterior_awning"
