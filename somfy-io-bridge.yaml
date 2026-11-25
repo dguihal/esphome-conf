@@ -167,7 +167,7 @@ home_io_control:
   light:
   - platform: home_io_control
     id: lumiere_veranda_1
-    name: "Garden Light"
+    name: "Lumiere Veranda 1"
     io_device_id: "D15C05"
 
   - platform: home_io_control
