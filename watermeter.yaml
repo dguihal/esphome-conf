@@ -4,7 +4,6 @@ substitutions:
   friendly_name: "Water meter"
   pulse_gpio: "26"
 
-
 packages:
   base: !include common/base.yaml
 
