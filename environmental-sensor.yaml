@@ -28,6 +28,9 @@ substitutions:
   #status_led_pin: "GPIO10" # Onboard RGB
   motion_sensor_pin: "GPIO23"
 
+packages:
+  base: !include common/base.yaml
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
