@@ -6,7 +6,6 @@ substitutions:
 
 
 packages:
-  board: !include common/az-delivery-devkit-v4.yaml
   base: !include common/base.yaml
 
 esphome:
