@@ -7,11 +7,12 @@ Ce dépôt centralise toutes les configurations de mes modules ESPHome.
 ## Dépendances
 
 Renovate surveille les composants déclarés avec `external_components` et ouvre
-une pull request lorsqu'un nouveau commit apparaît sur la branche par défaut
+une pull request lorsqu'un nouveau commit apparaît sur la branche déclarée
 du dépôt concerné. Les références `github://` restent épinglées sur un SHA :
 aucune configuration ne suit `main` directement. Ces mises à jour ne sont pas
 automatiquement fusionnées et sont validées par le workflow ESPHome avant une
-revue manuelle.
+revue manuelle. La branche suivie est indiquée par le commentaire
+`# renovate: branch=...` qui précède chaque composant.
 
 ## 🛠 Structure du Repo
 

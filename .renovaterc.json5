@@ -31,16 +31,15 @@
   customManagers: [
     {
       customType: 'regex',
-      description: 'Suit la branche par défaut des composants GitHub tout en conservant un SHA épinglé',
+      description: 'Suit la branche déclarée des composants GitHub tout en conservant un SHA épinglé',
       managerFilePatterns: [
         '/\\.ya?ml$/',
       ],
       matchStrings: [
-        'source:\\s*github://(?<depName>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@(?<currentDigest>[0-9a-f]{40})(?:\\s|$)',
+        '#\\s*renovate:\\s*branch=(?<currentValue>[A-Za-z0-9_.\\/-]+)\\s*\\n\\s*- source:\\s*github://(?<depName>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)@(?<currentDigest>[0-9a-f]{40})(?:\\s|$)',
       ],
-      currentValueTemplate: 'HEAD',
-      packageNameTemplate: 'https://github.com/{{{depName}}}.git',
-      datasourceTemplate: 'git-refs',
+      packageNameTemplate: '{{{depName}}}',
+      datasourceTemplate: 'github-digest',
     },
     {
       customType: 'regex',

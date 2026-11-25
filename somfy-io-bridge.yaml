@@ -20,6 +20,7 @@ esphome:
       - output.turn_off: led_lora
 
 external_components:
+  # renovate: branch=main
   - source: github://laberning/home_io_control@5807f8ac6bc45d410fab5ccd40d1cae621833ece
     components: [home_io_control]
 
