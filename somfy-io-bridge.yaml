@@ -96,8 +96,8 @@ home_io_control:
       close_duration: 25s
       set_position: timed
       follows:
-        - !secret somfy_io_remote_veranda_id
-        - !secret somfy_io_remote_veranda2_id
+        - !secret somfy_io_1w_remote_veranda_id
+        - !secret somfy_io_1w_remote_veranda2_id
 
     - id: volet_veranda_3
       io_device_type: roller_shutter
