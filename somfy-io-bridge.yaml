@@ -178,7 +178,6 @@ cover:
     linked_remotes:
       - !secret somfy_io_1w_remote_veranda_id
       - !secret somfy_io_1w_remote_veranda1_id
-      - !secret somfy_io_1w_volet_veranda1_id
     optimistic_state: true
 
   - platform: home_io_control
