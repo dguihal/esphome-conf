@@ -178,11 +178,11 @@ home_io_control:
 
     - platform: home_io_control
       id: lumiere_veranda_3
-      name: "Lumiere Veranda 1"
+      name: "Lumiere Veranda 3"
       io_device_id: "616D4B"
 
     - platform: home_io_control
-      id: lumiere_veranda_2
+      id: lumiere_veranda_4
       name: "Lumiere Veranda 2"
       io_device_id: "7F789A"
       dimmable: true
