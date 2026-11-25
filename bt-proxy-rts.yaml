@@ -24,7 +24,7 @@ esp32:
 
 external_components:
   # renovate: branch=main
-  - source: github://NicoIIT/esphome-ble_adv_proxy@8293caf0387a3001bc0fb2ffb7003076157042a3
+  - source: github://NicoIIT/esphome-ble_adv_proxy@a6bd7d1d9709c1afd5e5e32eb076a010fb734a26
   # renovate: branch=master
   - source: github://leonardpitzu/esphome_somfy@ab9802abfbfc58d6169744158b1b9e45d9a0431c
     components: [somfy]
