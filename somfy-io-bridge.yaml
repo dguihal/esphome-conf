@@ -60,7 +60,7 @@ home_io_control:
     - !secret somfy_io_1w_remote_veranda5_id
 
   # 2W onboarding helpers. They can be removed after 2W devices are configured.
-  discover_and_pair_button: true
+  # discover_and_pair_button: true
   accept_foreign_pairing: true
   scan_paired_devices_button: true
 
