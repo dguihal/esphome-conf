@@ -72,7 +72,7 @@ home_io_control:
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
-      node_id: !secret somfy_io_1w_device_veranda1_id
+      node_id: !secret somfy_io_1w_volet_veranda1_id
       cover: "Volet véranda 1 (1W)"
       device_class: shutter
       open_duration: 25s
@@ -87,7 +87,7 @@ home_io_control:
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
-      node_id: !secret somfy_io_1w_device_veranda2_id
+      node_id: !secret somfy_io_1w_volet_veranda2_id
       cover: "Volet véranda 2 (1W)"
       device_class: shutter
       open_duration: 25s
@@ -102,7 +102,7 @@ home_io_control:
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
-      node_id: !secret somfy_io_1w_device_veranda3_id
+      node_id: !secret somfy_io_1w_volet_veranda3_id
       cover: "Volet véranda 3 (1W)"
       device_class: shutter
       open_duration: 25s
@@ -117,7 +117,7 @@ home_io_control:
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
-      node_id: !secret somfy_io_1w_device_veranda4_id
+      node_id: !secret somfy_io_1w_volet_veranda4_id
       cover: "Volet véranda 4 (1W)"
       device_class: shutter
       open_duration: 25s
@@ -132,7 +132,7 @@ home_io_control:
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
-      node_id: !secret somfy_io_1w_device_veranda5_id
+      node_id: !secret somfy_io_1w_volet_veranda5_id
       cover: "Volet véranda 5 (1W)"
       device_class: shutter
       open_duration: 25s
