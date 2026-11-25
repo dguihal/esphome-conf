@@ -3,7 +3,11 @@ substitutions:
   name: "watermeter"
   friendly_name: "Water meter"
   pulse_gpio: "26"
-  
+
+
+packages:
+  board: !include common/az-delivery-devkit-v4.yaml
+  base: !include common/base.yaml
 
 esphome:
   name: ${name}
