@@ -178,8 +178,7 @@ cover:
     linked_remotes:
       - !secret somfy_io_1w_remote_veranda_id
       - !secret somfy_io_1w_remote_veranda1_id
-      - !secret 
-      - "class:vertical_exterior_awning"
+      - !secret somfy_io_1w_volet_veranda1_id
     optimistic_state: true
 
 sensor:
