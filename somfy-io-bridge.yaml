@@ -176,7 +176,7 @@ cover:
     invert_position: true
     status_poll_interval: 2s
     linked_remotes:
-      - "ABCDEF"
+      - !secret somfy_io_1w_remote_veranda_id
       - "class:vertical_exterior_awning"
     optimistic_state: true
 
