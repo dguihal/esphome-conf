@@ -179,7 +179,7 @@ home_io_control:
     - platform: home_io_control
       id: lumiere_veranda_3
       name: "Lumiere Veranda 3"
-      io_device_id: "616D4B"
+      io_device_id: "EA9EF1"
 
     - platform: home_io_control
       id: lumiere_veranda_4
