@@ -50,8 +50,6 @@ esp32:
   framework:
     type: esp-idf
 
-<<: !include common/base.yaml
-
 # Enable logging
 logger:
   level: DEBUG
