@@ -167,6 +167,19 @@ light:
     io_device_id: !secret somfy_io_2w_lumiere_veranda4_id
     dimmable: true
 
+cover:
+  - platform: home_io_control
+    id: volet
+    name: "Patio Awning"
+    io_device_id: "FEEB1E"
+    io_device_type: "vertical_exterior_awning"
+    invert_position: true
+    status_poll_interval: 2s
+    linked_remotes:
+      - "ABCDEF"
+      - "class:vertical_exterior_awning"
+    optimistic_state: true
+
 sensor:
   - platform: wifi_signal
     name: WiFi Signal
