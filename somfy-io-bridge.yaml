@@ -3,6 +3,8 @@ substitutions:
   name: somfy-io-bridge
   friendly_name: Somfy_IO_Bridge
 
+<<: !include common/base.yaml
+
 packages:
   board: !include common/heltec-v2.yaml
   base: !include common/base.yaml
