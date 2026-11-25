@@ -121,15 +121,15 @@ home_io_control:
       execute_broadcast: all
       # commands: [open, close, stop]
       enrollment: true
-      node_id: !secret somfy_io_device_veranda4_id
+      node_id: !secret somfy_io_1w_device_veranda4_id
       cover: "Volet véranda 4"
       device_class: shutter
       open_duration: 25s
       close_duration: 25s
       set_position: timed
       follows:
-        - !secret somfy_io_remote_veranda_id
-        - !secret somfy_io_remote_veranda4_id
+        - !secret somfy_io_1w_remote_veranda_id
+        - !secret somfy_io_1w_remote_veranda4_id
 
     - id: volet_veranda_5
       io_device_type: roller_shutter
