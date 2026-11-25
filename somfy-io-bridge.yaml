@@ -73,7 +73,7 @@ home_io_control:
       execute_broadcast: all
       # commands: [open, close, stop]
       enrollment: true
-      node_id: !secret somfy_io_device_veranda1_id
+      node_id: !secret somfy_io_1w_device_veranda1_id
       cover: "Volet véranda 1"
       device_class: shutter
       open_duration: 25s
