@@ -135,7 +135,6 @@ home_io_control:
       io_device_type: roller_shutter
       manufacturer: somfy
       execute_broadcast: all
-      # commands: [open, close, stop]
       enrollment: true
       node_id: !secret somfy_io_1w_device_veranda5_id
       cover: "Volet véranda 5"
