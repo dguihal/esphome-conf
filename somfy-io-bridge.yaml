@@ -217,7 +217,7 @@ cover:
     linked_remotes:
       - !secret somfy_io_1w_remote_veranda_id
       - !secret somfy_io_1w_remote_veranda4_id
-      - !secret somfy_io_1w_volet_veranda3_id
+      - !secret somfy_io_1w_volet_veranda4_id
     optimistic_state: true
 
 sensor:
