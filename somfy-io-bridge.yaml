@@ -108,7 +108,7 @@ home_io_control:
       commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
-      enrollment: true
+      # enrollment: true
       node_id: !secret somfy_io_1w_volet_veranda3_id
       cover: "Volet véranda 3 (1W)"
       drives:
