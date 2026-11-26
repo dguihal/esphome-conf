@@ -5,6 +5,7 @@ archive/
 
 # On ignore ABSOLUMENT les secrets
 secrets.yaml
+*.secrets.*
 
 # On ignore les fichiers de backup d'ESPHome
 *.bak
