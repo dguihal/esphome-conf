@@ -156,7 +156,7 @@ home_io_control:
       set_position: timed
       follows:
         - !secret somfy_io_1w_remote_volet_veranda_id
-        - !secret somfy_io_1w_remote_veranda5_id
+        - !secret somfy_io_1w_remote_volet_veranda5_id
 
 light:
   - platform: home_io_control
