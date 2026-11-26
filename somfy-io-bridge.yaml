@@ -103,7 +103,7 @@ home_io_control:
         - !secret somfy_io_1w_remote_veranda_id
         - !secret somfy_io_1w_remote_veranda2_id
 
-    - id: volet_veranda_3
+    - id: volet_veranda_1w_3
       io_device_type: roller_shutter
       commands: [open, close, stop]
       manufacturer: somfy
@@ -121,7 +121,7 @@ home_io_control:
         - !secret somfy_io_1w_remote_veranda_id
         - !secret somfy_io_1w_remote_veranda3_id
 
-    - id: volet_veranda_4
+    - id: volet_veranda_1w_4
       io_device_type: roller_shutter
       commands: [open, close, stop]
       manufacturer: somfy
