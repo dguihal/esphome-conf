@@ -69,6 +69,7 @@ home_io_control:
   oneway_controllers:
     - id: volet_veranda_1
       io_device_type: roller_shutter
+      commands: [open, close, stop, favorite]
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
