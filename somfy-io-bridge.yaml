@@ -67,7 +67,7 @@ home_io_control:
   # One virtual 1W controller represents one independently controlled device.
   # Duplicate this block with a different id when adding another actuator.
   oneway_controllers:
-    - id: volet_veranda_1
+    - id: volet_veranda_1_&w
       io_device_type: roller_shutter
       commands: [open, close, stop]
       manufacturer: somfy
