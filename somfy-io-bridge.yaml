@@ -25,7 +25,7 @@ external_components:
     components: [home_io_control]
 
 logger:
-  level: DEBUG
+  level: WARN
 
 wifi:
   on_connect:
