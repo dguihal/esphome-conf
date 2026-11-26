@@ -58,7 +58,7 @@ home_io_control:
     - !secret somfy_io_1w_remote_volet_veranda3_id
     - !secret somfy_io_1w_remote_volet_veranda4_id
     - !secret somfy_io_1w_remote_volet_veranda5_id
-    - !secret somfy_io_1w_remote_volet_veranda_id
+    - !secret somfy_io_1w_remote_lumiere_veranda_id
 
   # 2W onboarding helpers. They can be removed after 2W devices are configured.
   # discover_and_pair_button: true
