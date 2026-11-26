@@ -139,7 +139,7 @@ home_io_control:
         - !secret somfy_io_1w_remote_veranda_id
         - !secret somfy_io_1w_remote_veranda4_id
 
-    - id: volet_veranda_5
+    - id: volet_veranda_1w_5
       io_device_type: roller_shutter
       commands: [open, close, stop]
       manufacturer: somfy
@@ -159,19 +159,19 @@ home_io_control:
 
 light:
   - platform: home_io_control
-    id: lumiere_veranda_1
+    id: lumiere_veranda_2w_1
     name: "Lumiere Veranda 1"
     io_device_id: !secret somfy_io_2w_lumiere_veranda1_id
     dimmable: true
 
   - platform: home_io_control
-    id: lumiere_veranda_2
+    id: lumiere_veranda_2w_2
     name: "Lumiere Veranda 2"
     io_device_id: !secret somfy_io_2w_lumiere_veranda2_id
     dimmable: true
 
   - platform: home_io_control
-    id: lumiere_veranda_3
+    id: lumiere_veranda_2w_3
     name: "Lumiere Veranda 3"
     io_device_id: !secret somfy_io_2w_lumiere_veranda3_id
     dimmable: true
