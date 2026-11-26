@@ -241,7 +241,7 @@ cover:
     status_poll_interval: 2s
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
-      - !secret somfy_io_1w_remote_veranda5_id
+      - !secret somfy_io_1w_remote_volet_veranda5_id
     optimistic_state: true
 
 sensor:
