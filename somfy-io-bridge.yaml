@@ -123,6 +123,7 @@ home_io_control:
 
     - id: volet_veranda_4
       io_device_type: roller_shutter
+      commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
