@@ -69,7 +69,7 @@ home_io_control:
   oneway_controllers:
     - id: volet_veranda_1
       io_device_type: roller_shutter
-      commands: [open, close, stop, favorite]
+      commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
@@ -87,6 +87,7 @@ home_io_control:
 
     - id: volet_veranda_2
       io_device_type: roller_shutter
+      commands: [open, close, stop, favorite]
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
@@ -104,6 +105,7 @@ home_io_control:
 
     - id: volet_veranda_3
       io_device_type: roller_shutter
+      commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       enrollment: true
