@@ -70,7 +70,7 @@ home_io_control:
   oneway_controllers:
     - id: volet_veranda_1w_1
       io_device_type: roller_shutter
-      commands: [open, close, stop]
+      # commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       # enrollment: true
@@ -88,7 +88,7 @@ home_io_control:
 
     - id: volet_veranda_1w_2
       io_device_type: roller_shutter
-      commands: [open, close, stop]
+      # commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       # enrollment: true
@@ -106,7 +106,7 @@ home_io_control:
 
     - id: volet_veranda_1w_3
       io_device_type: roller_shutter
-      commands: [open, close, stop]
+      # commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       # enrollment: true
@@ -124,7 +124,7 @@ home_io_control:
 
     - id: volet_veranda_1w_4
       io_device_type: roller_shutter
-      commands: [open, close, stop]
+      # commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       # enrollment: true
@@ -142,7 +142,7 @@ home_io_control:
 
     - id: volet_veranda_1w_5
       io_device_type: roller_shutter
-      commands: [open, close, stop]
+      # commands: [open, close, stop]
       manufacturer: somfy
       execute_broadcast: all
       # enrollment: true
@@ -199,7 +199,7 @@ cover:
     io_device_type: "vertical_exterior_awning"
     invert_position: false
     status_poll_interval: 2s
-    travel_speed: silent
+    travel_speed: default
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
       - !secret somfy_io_1w_remote_volet_veranda1_id
@@ -212,7 +212,7 @@ cover:
     io_device_type: "vertical_exterior_awning"
     invert_position: false
     status_poll_interval: 2s
-    travel_speed: silent
+    travel_speed: default
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
       - !secret somfy_io_1w_remote_volet_veranda2_id
@@ -225,7 +225,7 @@ cover:
     io_device_type: "vertical_exterior_awning"
     invert_position: false
     status_poll_interval: 2s
-    travel_speed: silent
+    travel_speed: default
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
       - !secret somfy_io_1w_remote_volet_veranda3_id
@@ -238,7 +238,7 @@ cover:
     io_device_type: "vertical_exterior_awning"
     invert_position: false
     status_poll_interval: 2s
-    travel_speed: silent
+    travel_speed: default
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
       - !secret somfy_io_1w_remote_volet_veranda4_id
@@ -251,7 +251,7 @@ cover:
     io_device_type: "vertical_exterior_awning"
     invert_position: false
     status_poll_interval: 2s
-    travel_speed: silent
+    travel_speed: default
     linked_remotes:
       - !secret somfy_io_1w_remote_volet_veranda_id
       - !secret somfy_io_1w_remote_volet_veranda5_id

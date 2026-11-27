@@ -19,7 +19,8 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret esphome_ota_password
+    encryption:
+    # password: !secret esphome_ota_password
 
 # Enable logging
 logger:
