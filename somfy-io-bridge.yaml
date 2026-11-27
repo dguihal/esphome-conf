@@ -21,7 +21,7 @@ esphome:
 
 external_components:
   # renovate: branch=main
-  - source: github://laberning/home_io_control@57467e817732d1461b2f788e5ae3313e50f7c69c
+  - source: github://laberning/home_io_control@2235f5e5b72393354b5d4e699280a4d99818c82d
     components: [home_io_control]
 
 logger:
